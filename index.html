@@ -18,7 +18,7 @@
 body{font-family:'DM Sans',sans-serif;background:var(--creme);color:var(--verde-escuro);min-height:100vh}
 h1,h2,h3{font-family:'Cormorant Garamond',serif}
 .tela{display:none;min-height:100vh}
-.tela.ativa{display:flex;flex-direction:column}
+.tela.ativa{display:flex;flex-direction:column;height:100vh;overflow:hidden}
 .header{background:var(--verde-escuro);color:var(--creme);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .header h1{font-size:1.4rem;letter-spacing:1px}
 .btn{display:inline-block;padding:12px 24px;border-radius:12px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;transition:all 0.2s;text-align:center;text-decoration:none}
@@ -29,7 +29,7 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif}
 .btn-sair{display:flex;align-items:center;gap:6px;font-size:0.82rem;padding:7px 12px;border-radius:8px;background:rgba(255,255,255,0.15);border:none;color:var(--creme);cursor:pointer;font-family:'DM Sans',sans-serif}
 .card{background:white;border-radius:16px;padding:20px;box-shadow:var(--sombra);margin-bottom:16px}
 .conteudo{padding:20px;flex:1;max-width:480px;width:100%;margin:0 auto}
-.conteudo-nav{padding-bottom:85px}
+.conteudo-nav{padding-bottom:100px}
 .form-group{margin-bottom:16px}
 .form-group label{display:block;font-size:0.85rem;color:var(--verde-escuro);margin-bottom:6px;font-weight:500}
 .form-group input,.form-group select,.form-group textarea{width:100%;padding:12px 16px;border:2px solid #e0ddd6;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.95rem;background:var(--creme);color:var(--verde-escuro);transition:border 0.2s}
@@ -68,13 +68,13 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif}
 
 /* NAV */
 .nav-bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:white;display:flex;border-top:1px solid #e0ddd6;z-index:100}
-.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:9px 2px 7px;cursor:pointer;border:none;background:none;color:var(--cinza);font-family:'DM Sans',sans-serif;font-size:0.58rem;font-weight:500;transition:color 0.2s;gap:3px}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:7px 1px 6px;cursor:pointer;border:none;background:none;color:var(--cinza);font-family:'DM Sans',sans-serif;font-size:0.52rem;font-weight:500;transition:color 0.2s;gap:2px}
 .nav-item.ativa{color:var(--verde)}
-.nav-item svg{width:20px;height:20px}
+.nav-item svg{width:18px;height:18px}
 
 /* SECOES */
-.secao{display:none;overflow-y:auto;flex:1}
-.secao.ativa{display:block}
+.secao{display:none;flex:1}
+.secao.ativa{display:block;overflow-y:auto;-webkit-overflow-scrolling:touch;height:calc(100vh - 110px)}
 
 /* FRASE */
 .frase-card{background:linear-gradient(135deg,var(--verde-escuro) 0%,var(--verde) 100%);border-radius:16px;padding:18px 22px;margin-bottom:14px;color:white}
