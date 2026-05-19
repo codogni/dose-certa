@@ -6,247 +6,202 @@
 <title>Dose Certa</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-:root {
-  --verde: #1D9E75;
-  --terracota: #D85A30;
-  --creme: #F1EFE8;
-  --verde-escuro: #085041;
-  --terracota-claro: #FAECE7;
-  --branco: #ffffff;
-  --cinza: #888;
-  --sombra: 0 4px 24px rgba(8,80,65,0.10);
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'DM Sans', sans-serif; background: var(--creme); color: var(--verde-escuro); min-height: 100vh; }
-h1,h2,h3 { font-family: 'Cormorant Garamond', serif; }
+:root{--verde:#1D9E75;--terracota:#D85A30;--creme:#F1EFE8;--verde-escuro:#085041;--terracota-claro:#FAECE7;--cinza:#888;--sombra:0 4px 24px rgba(8,80,65,0.10)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--creme);color:var(--verde-escuro);min-height:100vh}
+h1,h2,h3{font-family:'Cormorant Garamond',serif}
+.tela{display:none;min-height:100vh}
+.tela.ativa{display:flex;flex-direction:column}
+.header{background:var(--verde-escuro);color:var(--creme);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.header h1{font-size:1.4rem;letter-spacing:1px}
+.btn{display:inline-block;padding:12px 24px;border-radius:12px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;transition:all 0.2s;text-align:center;text-decoration:none}
+.btn-primary{background:var(--verde);color:white}.btn-primary:hover{background:var(--verde-escuro)}
+.btn-secondary{background:var(--terracota);color:white}.btn-secondary:hover{background:#b84a22}
+.btn-outline{background:transparent;border:2px solid var(--verde);color:var(--verde)}
+.btn-full{width:100%;display:block}
+.btn-sair{display:flex;align-items:center;gap:6px;font-size:0.82rem;padding:7px 12px;border-radius:8px;background:rgba(255,255,255,0.15);border:none;color:var(--creme);cursor:pointer;font-family:'DM Sans',sans-serif}
+.card{background:white;border-radius:16px;padding:20px;box-shadow:var(--sombra);margin-bottom:16px}
+.conteudo{padding:20px;flex:1;max-width:480px;width:100%;margin:0 auto}
+.conteudo-nav{padding-bottom:85px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:0.85rem;color:var(--verde-escuro);margin-bottom:6px;font-weight:500}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:12px 16px;border:2px solid #e0ddd6;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.95rem;background:var(--creme);color:var(--verde-escuro);transition:border 0.2s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--verde)}
+.msg-erro{background:#fff0ee;border:1px solid var(--terracota);color:var(--terracota);padding:10px 14px;border-radius:8px;font-size:0.85rem;margin-bottom:12px;display:none}
+.msg-ok{background:#e8f7f2;border:1px solid var(--verde);color:var(--verde-escuro);padding:10px 14px;border-radius:8px;font-size:0.85rem;margin-bottom:12px;display:none}
+.hidden{display:none!important}
+.loading{text-align:center;padding:40px;color:var(--cinza)}
+.spinner{width:32px;height:32px;border:3px solid #ddd;border-top-color:var(--verde);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-/* TELAS */
-.tela { display: none; min-height: 100vh; }
-.tela.ativa { display: flex; flex-direction: column; }
+/* EM BREVE */
+#tela-embreve{background:var(--verde-escuro);align-items:center;justify-content:center;text-align:center}
+.embreve-inner{padding:40px 24px;color:var(--creme)}
+.embreve-inner h1{font-size:3rem;margin-bottom:8px;color:#fff}
+.embreve-inner p{font-size:1.05rem;opacity:0.85;margin-bottom:40px}
+.contador-box{display:flex;gap:12px;justify-content:center;margin-bottom:40px}
+.contador-item{background:rgba(255,255,255,0.1);border-radius:12px;padding:16px 18px;min-width:68px}
+.contador-num{font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:700;color:var(--verde);display:block}
+.contador-label{font-size:0.68rem;opacity:0.7;text-transform:uppercase;letter-spacing:1px}
 
-/* HEADER */
-.header { background: var(--verde-escuro); color: var(--creme); padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; }
-.header h1 { font-size: 1.5rem; letter-spacing: 1px; }
-.header-actions { display: flex; gap: 10px; align-items: center; }
-.btn-icon { background: none; border: none; color: var(--creme); cursor: pointer; font-size: 1.1rem; padding: 6px; border-radius: 8px; transition: background 0.2s; }
-.btn-icon:hover { background: rgba(255,255,255,0.15); }
+/* LOGIN */
+#tela-login{background:var(--creme);align-items:center;justify-content:center}
+.login-box{background:white;border-radius:24px;padding:36px 28px;width:100%;max-width:420px;box-shadow:var(--sombra);margin:16px}
+.login-logo{text-align:center;margin-bottom:28px}
+.login-logo h1{font-size:2.4rem;color:var(--verde-escuro)}
+.login-logo p{color:var(--cinza);font-size:0.85rem;margin-top:6px;line-height:1.5}
+.tabs{display:flex;margin-bottom:24px;background:var(--creme);border-radius:12px;padding:4px}
+.tab{flex:1;padding:10px;text-align:center;border:none;background:none;cursor:pointer;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.9rem;color:var(--cinza);transition:all 0.2s}
+.tab.ativa{background:white;color:var(--verde-escuro);font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
 
-/* BOTÕES */
-.btn { display: inline-block; padding: 12px 24px; border-radius: 12px; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 500; transition: all 0.2s; text-align: center; }
-.btn-primary { background: var(--verde); color: white; }
-.btn-primary:hover { background: var(--verde-escuro); }
-.btn-secondary { background: var(--terracota); color: white; }
-.btn-secondary:hover { background: #b84a22; }
-.btn-outline { background: transparent; border: 2px solid var(--verde); color: var(--verde); }
-.btn-outline:hover { background: var(--verde); color: white; }
-.btn-full { width: 100%; }
-.btn-sm { padding: 8px 16px; font-size: 0.85rem; border-radius: 8px; }
+/* CALCULADORA */
+.imc-resultado{text-align:center;padding:20px;border-radius:16px;background:var(--creme);margin-bottom:16px}
+.imc-valor{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:700;color:var(--verde)}
+.imc-class{font-size:1rem;color:var(--cinza);margin-top:4px}
 
-/* CARD */
-.card { background: white; border-radius: 16px; padding: 20px; box-shadow: var(--sombra); margin-bottom: 16px; }
+/* NAV */
+.nav-bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:white;display:flex;border-top:1px solid #e0ddd6;z-index:100}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:9px 2px 7px;cursor:pointer;border:none;background:none;color:var(--cinza);font-family:'DM Sans',sans-serif;font-size:0.58rem;font-weight:500;transition:color 0.2s;gap:3px}
+.nav-item.ativa{color:var(--verde)}
+.nav-item svg{width:20px;height:20px}
 
-/* CONTEUDO PRINCIPAL */
-.conteudo { padding: 20px; flex: 1; max-width: 480px; width: 100%; margin: 0 auto; }
+/* SECOES */
+.secao{display:none;overflow-y:auto;flex:1}
+.secao.ativa{display:block}
 
-/* TELA EM BREVE */
-#tela-embreve { background: var(--verde-escuro); align-items: center; justify-content: center; text-align: center; }
-.embreve-inner { padding: 40px 24px; color: var(--creme); }
-.embreve-inner h1 { font-size: 3rem; margin-bottom: 8px; color: #fff; }
-.embreve-inner p { font-size: 1.1rem; opacity: 0.85; margin-bottom: 40px; }
-.contador-box { display: flex; gap: 16px; justify-content: center; margin-bottom: 40px; }
-.contador-item { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 16px 20px; min-width: 70px; }
-.contador-num { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 700; color: var(--verde); display: block; }
-.contador-label { font-size: 0.7rem; opacity: 0.7; text-transform: uppercase; letter-spacing: 1px; }
-.embreve-logo { font-family: 'Cormorant Garamond', serif; font-size: 1rem; letter-spacing: 3px; opacity: 0.6; margin-top: 32px; text-transform: uppercase; }
+/* FRASE */
+.frase-card{background:linear-gradient(135deg,var(--verde-escuro) 0%,var(--verde) 100%);border-radius:16px;padding:18px 22px;margin-bottom:14px;color:white}
+.frase-card p{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-style:italic;line-height:1.5}
 
-/* TELA LOGIN */
-#tela-login { background: var(--creme); align-items: center; justify-content: center; }
-.login-box { background: white; border-radius: 24px; padding: 40px 32px; width: 100%; max-width: 420px; box-shadow: var(--sombra); margin: 20px; }
-.login-logo { text-align: center; margin-bottom: 32px; }
-.login-logo h1 { font-size: 2.5rem; color: var(--verde-escuro); }
-.login-logo p { color: var(--cinza); font-size: 0.9rem; margin-top: 4px; }
-.form-group { margin-bottom: 18px; }
-.form-group label { display: block; font-size: 0.85rem; color: var(--verde-escuro); margin-bottom: 6px; font-weight: 500; }
-.form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 16px; border: 2px solid #e0ddd6; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; background: var(--creme); color: var(--verde-escuro); transition: border 0.2s; }
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--verde); }
-.tabs { display: flex; gap: 0; margin-bottom: 28px; background: var(--creme); border-radius: 12px; padding: 4px; }
-.tab { flex: 1; padding: 10px; text-align: center; border: none; background: none; cursor: pointer; border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--cinza); transition: all 0.2s; }
-.tab.ativa { background: white; color: var(--verde-escuro); font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-.msg-erro { background: #fff0ee; border: 1px solid var(--terracota); color: var(--terracota); padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 12px; display: none; }
-.msg-ok { background: #e8f7f2; border: 1px solid var(--verde); color: var(--verde-escuro); padding: 10px 14px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 12px; display: none; }
+/* CONTADOR DIAS */
+.contador-prog{background:var(--verde-escuro);border-radius:16px;padding:14px 18px;color:white;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
+.contador-prog-num{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:700}
+.contador-prog-txt{font-size:0.78rem;opacity:0.8}
+.dias-bolinha{display:flex;gap:4px;flex-wrap:wrap;max-width:140px;justify-content:flex-end}
+.dia-bolinha{width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,0.2)}
+.dia-bolinha.feito{background:var(--verde)}
+.dia-bolinha.hoje{background:var(--terracota)}
 
-/* TELA CALCULADORA */
-#tela-calculadora .conteudo { padding-top: 24px; }
-.imc-resultado { text-align: center; padding: 24px; border-radius: 16px; margin-bottom: 20px; }
-.imc-valor { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 700; color: var(--verde); }
-.imc-class { font-size: 1rem; color: var(--cinza); margin-top: 4px; }
+/* AGUA INLINE */
+.agua-inline{background:white;border-radius:16px;padding:16px 18px;margin-bottom:14px;box-shadow:var(--sombra)}
+.agua-inline-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.agua-inline-titulo{font-size:0.85rem;font-weight:600;color:var(--verde-escuro)}
+.agua-inline-val{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--verde)}
+.agua-inline-meta{font-size:0.75rem;color:var(--cinza)}
+.agua-copos-inline{display:flex;flex-wrap:wrap;gap:6px}
+.copo{width:38px;height:38px;border-radius:8px;border:2px solid #ddd;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all 0.2s}
+.copo.cheio{background:var(--verde);border-color:var(--verde)}
 
-/* TELA PRINCIPAL */
-.nav-bottom { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; border-top: 1px solid #e0ddd6; z-index: 100; max-width: 480px; margin: 0 auto; }
-.nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 10px 4px 8px; cursor: pointer; border: none; background: none; color: var(--cinza); font-family: 'DM Sans', sans-serif; font-size: 0.62rem; font-weight: 500; transition: color 0.2s; gap: 3px; }
-.nav-item.ativa { color: var(--verde); }
-.nav-item svg { width: 22px; height: 22px; }
-.conteudo-nav { padding-bottom: 80px; }
-
-/* FRASE MOTIVACIONAL */
-.frase-card { background: linear-gradient(135deg, var(--verde-escuro) 0%, var(--verde) 100%); border-radius: 16px; padding: 20px 24px; margin-bottom: 16px; color: white; }
-.frase-card p { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-style: italic; line-height: 1.5; }
-
-/* MISSAO */
-.missao-card { background: var(--terracota-claro); border-left: 4px solid var(--terracota); border-radius: 0 12px 12px 0; padding: 16px 20px; margin-bottom: 16px; }
-.missao-card h3 { color: var(--terracota); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; font-family: 'DM Sans', sans-serif; }
-.missao-card p { font-size: 0.95rem; color: var(--verde-escuro); line-height: 1.5; }
-
-/* ATIVIDADES TOGGLE */
-.atividades-section h2 { font-size: 1.3rem; margin-bottom: 16px; }
-.ativ-grupo { margin-bottom: 20px; }
-.ativ-grupo-titulo { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--cinza); margin-bottom: 10px; font-weight: 600; }
-.ativ-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; background: white; border-radius: 12px; margin-bottom: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer; transition: all 0.2s; user-select: none; }
-.ativ-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
-.ativ-item.marcado { background: #e8f7f2; }
-.ativ-info { display: flex; flex-direction: column; gap: 2px; }
-.ativ-nome { font-size: 0.95rem; font-weight: 500; }
-.ativ-pts { font-size: 0.75rem; color: var(--cinza); }
-.toggle { width: 48px; height: 26px; background: #ddd; border-radius: 13px; position: relative; transition: background 0.2s; flex-shrink: 0; }
-.toggle::after { content: ''; position: absolute; width: 20px; height: 20px; background: white; border-radius: 50%; top: 3px; left: 3px; transition: left 0.2s; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
-.ativ-item.marcado .toggle { background: var(--verde); }
-.ativ-item.marcado .toggle::after { left: 25px; }
-
-/* PONTUACAO DO DIA */
-.pontos-hoje { background: white; border-radius: 16px; padding: 20px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; box-shadow: var(--sombra); }
-.pontos-num { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; color: var(--verde); font-weight: 700; }
-.pontos-info { text-align: right; }
-.pontos-info span { font-size: 0.8rem; color: var(--cinza); display: block; }
-.pontos-total { font-size: 1.1rem; font-weight: 600; color: var(--verde-escuro); }
-
-/* CONTADOR 10 DIAS */
-.contador-prog { background: var(--verde-escuro); border-radius: 16px; padding: 16px 20px; color: white; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
-.contador-prog-num { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 700; }
-.contador-prog-txt { font-size: 0.8rem; opacity: 0.8; }
-.dias-bolinha { display: flex; gap: 5px; }
-.dia-bolinha { width: 16px; height: 16px; border-radius: 50%; background: rgba(255,255,255,0.2); }
-.dia-bolinha.feito { background: var(--verde); }
-.dia-bolinha.hoje { background: var(--terracota); }
+/* PESO INLINE */
+.peso-inline{background:white;border-radius:16px;padding:16px 18px;margin-bottom:14px;box-shadow:var(--sombra)}
+.peso-inline-titulo{font-size:0.85rem;font-weight:600;color:var(--verde-escuro);margin-bottom:12px}
+.peso-dias-row{display:flex;gap:10px;margin-bottom:12px}
+.peso-dia-card{flex:1;background:var(--creme);border-radius:10px;padding:12px 8px;text-align:center;cursor:pointer;transition:all 0.2s;border:2px solid transparent}
+.peso-dia-card.ativo{border-color:var(--verde)}
+.peso-dia-label{font-size:0.7rem;color:var(--cinza);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px}
+.peso-dia-val{font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--verde-escuro);font-weight:700}
+.peso-input-row{display:flex;gap:8px;align-items:center}
+.peso-input-row input{flex:1;padding:10px 14px;border:2px solid #e0ddd6;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:0.95rem;background:var(--creme);color:var(--verde-escuro)}
+.peso-input-row input:focus{outline:none;border-color:var(--verde)}
+.grafico-barra-wrap{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.grafico-row{display:flex;align-items:center;gap:8px}
+.grafico-label{font-size:0.72rem;width:38px;text-align:right;color:var(--cinza)}
+.grafico-barra{height:20px;border-radius:6px;background:var(--verde);transition:width 0.5s;min-width:4px}
+.grafico-val{font-size:0.78rem;font-weight:600;color:var(--verde-escuro)}
 
 /* PARABENS */
-.parabens-banner { background: linear-gradient(135deg, var(--terracota) 0%, #e87040 100%); color: white; border-radius: 16px; padding: 20px; text-align: center; margin-bottom: 16px; animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.02); } }
-.parabens-banner h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; }
+.parabens-banner{background:linear-gradient(135deg,var(--terracota) 0%,#e87040 100%);color:white;border-radius:16px;padding:18px;text-align:center;margin-bottom:14px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.02)}}
+.parabens-banner h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem}
 
-/* RANKING */
-.ranking-item { display: flex; align-items: center; gap: 14px; padding: 14px 16px; background: white; border-radius: 12px; margin-bottom: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-.ranking-pos { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 700; width: 32px; text-align: center; }
-.ranking-pos.top1 { color: #FFB800; }
-.ranking-pos.top2 { color: #A0A0A0; }
-.ranking-pos.top3 { color: #CD7F32; }
-.ranking-nome { flex: 1; font-weight: 500; font-size: 0.95rem; }
-.ranking-pts { font-weight: 700; color: var(--verde); font-size: 1rem; }
-.ranking-coroa { font-size: 1.2rem; }
-.ranking-item.top3-dest { background: linear-gradient(90deg, #fffbea 0%, white 100%); border-left: 3px solid #FFB800; }
-.ranking-item.minha-pos { background: linear-gradient(90deg, #e8f7f2 0%, white 100%); border-left: 3px solid var(--verde); }
-.seq-badge { background: var(--terracota-claro); color: var(--terracota); border-radius: 8px; padding: 3px 8px; font-size: 0.75rem; font-weight: 600; }
+/* ATIVIDADES */
+.missao-card{background:var(--terracota-claro);border-left:4px solid var(--terracota);border-radius:0 12px 12px 0;padding:14px 18px;margin-bottom:14px}
+.missao-card h3{color:var(--terracota);font-size:0.78rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-family:'DM Sans',sans-serif}
+.missao-card p{font-size:0.92rem;color:var(--verde-escuro);line-height:1.5}
+.seq-card{background:linear-gradient(135deg,var(--terracota) 0%,#e87040 100%);border-radius:16px;padding:14px 18px;color:white;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between}
+.seq-num{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:700}
+.seq-txt{font-size:0.82rem;opacity:0.9}
+.pontos-hoje{background:white;border-radius:16px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;box-shadow:var(--sombra)}
+.pontos-num{font-family:'Cormorant Garamond',serif;font-size:2.6rem;color:var(--verde);font-weight:700}
+.pontos-total{font-size:1rem;font-weight:600;color:var(--verde-escuro)}
+.pontos-label{font-size:0.78rem;color:var(--cinza)}
+.ativ-grupo{margin-bottom:18px}
+.ativ-grupo-titulo{font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--cinza);margin-bottom:8px;font-weight:600}
+.ativ-item{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;background:white;border-radius:12px;margin-bottom:7px;box-shadow:0 2px 8px rgba(0,0,0,0.05);cursor:pointer;transition:all 0.2s;user-select:none}
+.ativ-item.marcado{background:#e8f7f2}
+.ativ-info{display:flex;flex-direction:column;gap:2px}
+.ativ-nome{font-size:0.92rem;font-weight:500}
+.ativ-pts{font-size:0.72rem;color:var(--cinza)}
+.toggle{width:46px;height:25px;background:#ddd;border-radius:13px;position:relative;transition:background 0.2s;flex-shrink:0}
+.toggle::after{content:'';position:absolute;width:19px;height:19px;background:white;border-radius:50%;top:3px;left:3px;transition:left 0.2s;box-shadow:0 1px 4px rgba(0,0,0,0.2)}
+.ativ-item.marcado .toggle{background:var(--verde)}
+.ativ-item.marcado .toggle::after{left:24px}
 
 /* CARDAPIO */
-.cardapio-section h2 { font-size: 1.3rem; margin-bottom: 8px; }
-.cardapio-placeholder { background: white; border-radius: 12px; padding: 20px; margin-bottom: 12px; text-align: center; color: var(--cinza); font-size: 0.9rem; border: 2px dashed #ddd; }
-.cardapio-badge { display: inline-block; background: var(--terracota-claro); color: var(--terracota); border-radius: 8px; padding: 4px 12px; font-size: 0.8rem; font-weight: 600; margin-bottom: 16px; }
+.cardapio-placeholder{border-radius:12px;padding:20px;text-align:center;color:var(--cinza);font-size:0.88rem;border:2px dashed #ddd}
 
 /* DIARIO */
-.diario-form textarea { width: 100%; padding: 14px; border: 2px solid #e0ddd6; border-radius: 12px; font-family: 'DM Sans', sans-serif; font-size: 0.9rem; resize: vertical; min-height: 100px; background: var(--creme); color: var(--verde-escuro); }
-.diario-form textarea:focus { outline: none; border-color: var(--verde); }
-.diario-entrada { background: white; border-radius: 12px; padding: 14px 16px; margin-bottom: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-.diario-entrada-header { display: flex; justify-content: space-between; margin-bottom: 6px; }
-.diario-data { font-size: 0.8rem; color: var(--cinza); }
-.diario-refeicao { font-size: 0.75rem; font-weight: 600; color: var(--verde); text-transform: uppercase; letter-spacing: 0.5px; }
-.diario-texto { font-size: 0.9rem; color: var(--verde-escuro); line-height: 1.5; }
+.diario-form textarea{width:100%;padding:12px 14px;border:2px solid #e0ddd6;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:0.9rem;resize:vertical;min-height:90px;background:var(--creme);color:var(--verde-escuro)}
+.diario-form textarea:focus{outline:none;border-color:var(--verde)}
+.diario-entrada{background:white;border-radius:12px;padding:13px 15px;margin-bottom:8px;box-shadow:0 2px 8px rgba(0,0,0,0.05)}
+.diario-entrada-header{display:flex;justify-content:space-between;margin-bottom:6px}
+.diario-data{font-size:0.78rem;color:var(--cinza)}
+.diario-refeicao{font-size:0.72rem;font-weight:600;color:var(--verde);text-transform:uppercase;letter-spacing:0.5px}
+.diario-texto{font-size:0.88rem;color:var(--verde-escuro);line-height:1.5;white-space:pre-line}
 
-/* AGUA */
-.agua-meta { text-align: center; padding: 24px; }
-.agua-litros { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; color: var(--verde); font-weight: 700; }
-.agua-sub { color: var(--cinza); font-size: 0.9rem; }
-.agua-copos { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 20px 0; }
-.copo { width: 44px; height: 44px; border-radius: 8px; border: 2px solid #ddd; background: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: all 0.2s; }
-.copo.cheio { background: var(--verde); border-color: var(--verde); }
-
-/* PESO */
-.peso-dias { display: flex; gap: 12px; margin-bottom: 20px; }
-.peso-dia-card { flex: 1; background: white; border-radius: 12px; padding: 16px 12px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-.peso-dia-label { font-size: 0.75rem; color: var(--cinza); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
-.peso-dia-val { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; color: var(--verde-escuro); font-weight: 700; }
-.peso-grafico { background: white; border-radius: 16px; padding: 20px; box-shadow: var(--sombra); }
-.grafico-barra-wrap { display: flex; flex-direction: column; gap: 10px; }
-.grafico-row { display: flex; align-items: center; gap: 10px; }
-.grafico-label { font-size: 0.75rem; width: 40px; text-align: right; color: var(--cinza); }
-.grafico-barra { height: 24px; border-radius: 6px; background: var(--verde); transition: width 0.5s; min-width: 4px; }
-.grafico-val { font-size: 0.8rem; font-weight: 600; color: var(--verde-escuro); }
-
-/* ADMIN */
-.admin-section { margin-bottom: 24px; }
-.admin-section h3 { font-size: 1.1rem; margin-bottom: 12px; color: var(--verde-escuro); border-bottom: 2px solid var(--creme); padding-bottom: 8px; }
-.admin-stat { display: flex; justify-content: space-between; padding: 10px 14px; background: var(--creme); border-radius: 8px; margin-bottom: 6px; font-size: 0.9rem; }
-.admin-stat strong { color: var(--verde); }
-.admin-participante { background: white; border-radius: 12px; padding: 16px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-.admin-part-nome { font-weight: 600; font-size: 1rem; margin-bottom: 8px; color: var(--verde-escuro); }
-.admin-part-info { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-.admin-info-item { font-size: 0.8rem; color: var(--cinza); }
-.admin-info-item span { font-weight: 600; color: var(--verde-escuro); }
-.admin-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
-.admin-tab { padding: 8px 14px; border-radius: 8px; border: 2px solid #ddd; background: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; color: var(--cinza); transition: all 0.2s; }
-.admin-tab.ativa { border-color: var(--verde); color: var(--verde); font-weight: 600; }
-.admin-content { display: none; }
-.admin-content.ativa { display: block; }
+/* RANKING */
+.ranking-item{display:flex;align-items:center;gap:12px;padding:13px 15px;background:white;border-radius:12px;margin-bottom:7px;box-shadow:0 2px 8px rgba(0,0,0,0.05)}
+.ranking-pos{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:700;width:30px;text-align:center}
+.ranking-pos.top1{color:#FFB800}.ranking-pos.top2{color:#A0A0A0}.ranking-pos.top3{color:#CD7F32}
+.ranking-nome{flex:1;font-weight:500;font-size:0.92rem}
+.ranking-pts{font-weight:700;color:var(--verde);font-size:0.95rem}
+.ranking-item.top3-dest{background:linear-gradient(90deg,#fffbea 0%,white 100%);border-left:3px solid #FFB800}
+.ranking-item.minha-pos{background:linear-gradient(90deg,#e8f7f2 0%,white 100%);border-left:3px solid var(--verde)}
 
 /* PERFIL */
-.perfil-avatar { width: 72px; height: 72px; border-radius: 50%; background: linear-gradient(135deg, var(--verde) 0%, var(--verde-escuro) 100%); display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: white; font-weight: 700; margin: 0 auto 16px; }
-.perfil-nome { text-align: center; font-size: 1.3rem; margin-bottom: 4px; }
-.perfil-sub { text-align: center; color: var(--cinza); font-size: 0.85rem; margin-bottom: 24px; }
+.perfil-avatar{width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,var(--verde) 0%,var(--verde-escuro) 100%);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.7rem;color:white;font-weight:700;margin:0 auto 14px}
+.perfil-nome-txt{text-align:center;font-size:1.25rem;margin-bottom:4px}
+.perfil-sub-txt{text-align:center;color:var(--cinza);font-size:0.82rem;margin-bottom:20px}
+.perfil-info-item{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0ede8;font-size:0.88rem}
+.perfil-info-item:last-child{border-bottom:none}
+.perfil-info-label{color:var(--cinza)}
+.perfil-info-val{font-weight:600;color:var(--verde-escuro)}
 
-/* SEQUENCIA */
-.seq-card { background: linear-gradient(135deg, var(--terracota) 0%, #e87040 100%); border-radius: 16px; padding: 16px 20px; color: white; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
-.seq-num { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 700; }
-.seq-txt { font-size: 0.85rem; opacity: 0.9; }
-
-/* UTIL */
-.divider { height: 1px; background: #e0ddd6; margin: 20px 0; }
-.text-center { text-align: center; }
-.mt-8 { margin-top: 8px; }
-.mt-16 { margin-top: 16px; }
-.mb-8 { margin-bottom: 8px; }
-.hidden { display: none !important; }
-.loading { text-align: center; padding: 40px; color: var(--cinza); }
-.spinner { width: 32px; height: 32px; border: 3px solid #ddd; border-top-color: var(--verde); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* SECOES INTERNAS */
-.secao { display: none; }
-.secao.ativa { display: block; }
-
-/* RESPONSIVE */
-@media (max-width: 480px) {
-  .nav-bottom { max-width: 100%; }
-  .login-box { margin: 12px; padding: 28px 20px; }
-}
+/* ADMIN */
+.admin-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.admin-tab{padding:8px 12px;border-radius:8px;border:2px solid #ddd;background:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.82rem;color:var(--cinza);transition:all 0.2s}
+.admin-tab.ativa{border-color:var(--verde);color:var(--verde);font-weight:600}
+.admin-content{display:none}.admin-content.ativa{display:block}
+.admin-section{margin-bottom:20px}
+.admin-section h3{font-size:1rem;margin-bottom:10px;color:var(--verde-escuro);border-bottom:2px solid var(--creme);padding-bottom:8px}
+.admin-stat{display:flex;justify-content:space-between;padding:9px 12px;background:var(--creme);border-radius:8px;margin-bottom:5px;font-size:0.88rem}
+.admin-stat strong{color:var(--verde)}
+.admin-participante{background:white;border-radius:12px;padding:14px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,0.05)}
+.admin-part-nome{font-weight:600;font-size:0.95rem;margin-bottom:8px;color:var(--verde-escuro)}
+.admin-part-info{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.admin-info-item{font-size:0.78rem;color:var(--cinza)}
+.admin-info-item span{font-weight:600;color:var(--verde-escuro)}
+@media(max-width:480px){.nav-bottom{max-width:100%;left:0;transform:none}.login-box{margin:12px;padding:24px 18px}}
 </style>
 </head>
 <body>
 
-<!-- TELA EM BREVE -->
+<!-- EM BREVE -->
 <div class="tela" id="tela-embreve">
   <div class="embreve-inner">
     <h1>Dose Certa</h1>
-    <p>O grupo começa em breve. Prepare-se.</p>
+    <p>O grupo comeca em breve. Prepare-se.</p>
     <div class="contador-box">
       <div class="contador-item"><span class="contador-num" id="cnt-dias">00</span><span class="contador-label">dias</span></div>
       <div class="contador-item"><span class="contador-num" id="cnt-horas">00</span><span class="contador-label">horas</span></div>
       <div class="contador-item"><span class="contador-num" id="cnt-min">00</span><span class="contador-label">min</span></div>
       <div class="contador-item"><span class="contador-num" id="cnt-seg">00</span><span class="contador-label">seg</span></div>
     </div>
-    <button class="btn btn-outline" onclick="mostrarLogin()" style="border-color:rgba(255,255,255,0.4);color:white;">Já tenho conta</button>
-    <p class="embreve-logo">dose certa</p>
+    <button class="btn" onclick="mostrarLogin()" style="border:2px solid rgba(255,255,255,0.4);color:white;background:transparent;">Ja tenho conta</button>
   </div>
 </div>
 
-<!-- TELA LOGIN -->
+<!-- LOGIN -->
 <div class="tela" id="tela-login">
   <div class="login-box">
     <div class="login-logo">
@@ -259,420 +214,205 @@ h1,h2,h3 { font-family: 'Cormorant Garamond', serif; }
     </div>
     <div id="msg-erro" class="msg-erro"></div>
     <div id="msg-ok" class="msg-ok"></div>
-
-    <!-- LOGIN -->
     <div id="form-login">
-      <div class="form-group">
-        <label>Nome completo</label>
-        <input type="text" id="login-nome" placeholder="Ex: Maria Silva" autocomplete="off">
-      </div>
-      <div class="form-group">
-        <label>Senha</label>
-        <input type="password" id="login-senha" placeholder="Sua senha">
-      </div>
+      <div class="form-group"><label>Nome completo</label><input type="text" id="login-nome" placeholder="Ex: Maria Silva" autocomplete="off"></div>
+      <div class="form-group"><label>Senha</label><input type="password" id="login-senha" placeholder="Sua senha"></div>
       <button class="btn btn-primary btn-full" onclick="fazerLogin()">Entrar</button>
     </div>
-
-    <!-- CADASTRO -->
     <div id="form-cadastro" class="hidden">
-      <div class="form-group">
-        <label>Nome (sem apelidos)</label>
-        <input type="text" id="cad-nome" placeholder="Ex: Maria">
-      </div>
-      <div class="form-group">
-        <label>Sobrenome</label>
-        <input type="text" id="cad-sobrenome" placeholder="Ex: Silva">
-      </div>
-      <div class="form-group">
-        <label>Senha</label>
-        <input type="password" id="cad-senha" placeholder="Crie uma senha">
-      </div>
-      <div class="form-group">
-        <label>Confirmar senha</label>
-        <input type="password" id="cad-senha2" placeholder="Repita a senha">
-      </div>
+      <div class="form-group"><label>Nome (sem apelidos)</label><input type="text" id="cad-nome" placeholder="Ex: Maria"></div>
+      <div class="form-group"><label>Sobrenome</label><input type="text" id="cad-sobrenome" placeholder="Ex: Silva"></div>
+      <div class="form-group"><label>Senha</label><input type="password" id="cad-senha" placeholder="Crie uma senha"></div>
+      <div class="form-group"><label>Confirmar senha</label><input type="password" id="cad-senha2" placeholder="Repita a senha"></div>
       <button class="btn btn-primary btn-full" onclick="fazerCadastro()">Cadastrar</button>
     </div>
   </div>
 </div>
 
-<!-- TELA CALCULADORA -->
+<!-- CALCULADORA -->
 <div class="tela" id="tela-calculadora">
   <div class="header">
     <h1>Meu perfil</h1>
-    <div class="header-actions">
-      <button class="btn-icon" onclick="fazerLogout()" style="display:flex;align-items:center;gap:6px;font-size:0.85rem;padding:8px 12px;border-radius:8px;background:rgba(255,255,255,0.15);">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-        Sair
-      </button>
-    </div>
+    <button class="btn-sair" onclick="fazerLogout()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sair
+    </button>
   </div>
   <div class="conteudo">
     <div class="card">
-      <h2 style="margin-bottom:16px;font-size:1.3rem;">Seus dados</h2>
-      <div class="form-group">
-        <label>Peso atual (kg)</label>
-        <input type="number" id="calc-peso" placeholder="Ex: 72.5" step="0.1" min="30" max="200">
-      </div>
-      <div class="form-group">
-        <label>Altura (cm)</label>
-        <input type="number" id="calc-altura" placeholder="Ex: 165" min="100" max="250">
-      </div>
-      <div class="form-group">
-        <label>Usa caneta emagrecedora?</label>
-        <select id="calc-caneta">
-          <option value="nao">Nao</option>
-          <option value="sim">Sim</option>
-        </select>
-      </div>
-      <div id="imc-resultado" class="imc-resultado hidden">
-        <div class="imc-valor" id="imc-val"></div>
-        <div class="imc-class" id="imc-class"></div>
-      </div>
+      <h2 style="margin-bottom:16px;font-size:1.25rem;">Seus dados</h2>
+      <div class="form-group"><label>Peso atual (kg)</label><input type="number" id="calc-peso" placeholder="Ex: 72.5" step="0.1" min="30" max="200"></div>
+      <div class="form-group"><label>Altura (cm)</label><input type="number" id="calc-altura" placeholder="Ex: 165" min="100" max="250"></div>
+      <div class="form-group"><label>Usa caneta emagrecedora?</label><select id="calc-caneta"><option value="nao">Nao</option><option value="sim">Sim</option></select></div>
+      <div id="imc-resultado" class="imc-resultado hidden"><div class="imc-valor" id="imc-val"></div><div class="imc-class" id="imc-class"></div></div>
       <div id="calc-msg-erro" class="msg-erro"></div>
       <button class="btn btn-primary btn-full" onclick="calcularIMC()">Calcular e ver meu cardapio</button>
     </div>
   </div>
 </div>
 
-<!-- TELA PRINCIPAL (APP) -->
+<!-- APP -->
 <div class="tela" id="tela-app">
   <div class="header">
     <h1>Dose Certa</h1>
-    <div class="header-actions">
-      <span id="header-nome" style="font-size:0.85rem;opacity:0.8;"></span>
-      <button class="btn-icon" onclick="fazerLogout()" style="display:flex;align-items:center;gap:6px;font-size:0.85rem;padding:8px 12px;border-radius:8px;background:rgba(255,255,255,0.15);">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-        Sair
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span id="header-nome" style="font-size:0.82rem;opacity:0.8;"></span>
+      <button class="btn-sair" onclick="fazerLogout()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sair
       </button>
     </div>
   </div>
 
-  <!-- SECAO INICIO -->
+  <!-- INICIO -->
   <div class="secao ativa" id="sec-inicio">
     <div class="conteudo conteudo-nav">
-      <div id="parabens-banner" class="parabens-banner hidden">
-        <h3>Dia completo!</h3>
-        <p>Voce completou todas as atividades de hoje!</p>
-      </div>
-      <div id="frase-card" class="frase-card">
-        <p id="frase-texto">Carregando...</p>
-      </div>
-      <div id="contador-10dias" class="contador-prog">
-        <div>
-          <div class="contador-prog-num">Dia <span id="dia-atual-num">1</span></div>
-          <div class="contador-prog-txt">de 10 do grupo</div>
-        </div>
+      <div id="parabens-banner" class="parabens-banner hidden"><h3>Dia completo!</h3><p style="font-size:0.9rem;margin-top:4px;">Voce completou todas as atividades de hoje!</p></div>
+      <div class="frase-card"><p id="frase-texto">Carregando...</p></div>
+      <div class="contador-prog">
+        <div><div class="contador-prog-num">Dia <span id="dia-atual-num">1</span></div><div class="contador-prog-txt">de 10 do grupo</div></div>
         <div class="dias-bolinha" id="dias-bolinhas"></div>
       </div>
-      <div class="pontos-hoje">
-        <div>
-          <div style="font-size:0.8rem;color:var(--cinza);margin-bottom:4px;">Pontos hoje</div>
-          <div class="pontos-num" id="pontos-hoje-num">0</div>
+      <div class="agua-inline">
+        <div class="agua-inline-top">
+          <div><div class="agua-inline-titulo">Agua do dia</div><div class="agua-inline-meta">Meta: <span id="agua-meta-l-i">0L</span></div></div>
+          <div class="agua-inline-val" id="agua-atual-l-i">0L</div>
         </div>
-        <div class="pontos-info">
-          <span>Total no grupo</span>
-          <div class="pontos-total" id="pontos-total-num">0 pts</div>
-          <div class="mt-8">
-            <span class="seq-badge" id="seq-dias-badge">Seq: 0 dias</span>
+        <div class="agua-copos-inline" id="agua-copos-i"></div>
+        <p style="font-size:0.72rem;color:var(--cinza);margin-top:8px;text-align:center;">Cada copo = 250ml. Clique para marcar.</p>
+      </div>
+      <div class="peso-inline">
+        <div class="peso-inline-titulo">Registro de peso</div>
+        <div class="peso-dias-row" id="peso-dias-cards-i"></div>
+        <div id="peso-input-wrap-i" class="hidden">
+          <div class="peso-input-row">
+            <input type="number" id="peso-input-i" placeholder="Ex: 72.5" step="0.1" min="30" max="200">
+            <button class="btn btn-primary" style="padding:10px 18px;" onclick="salvarPesoInline()">Salvar</button>
           </div>
         </div>
-      </div>
-      <div id="missao-card" class="missao-card hidden">
-        <h3>Missao do dia</h3>
-        <p id="missao-texto"></p>
+        <div id="peso-grafico-i" class="grafico-barra-wrap" style="display:none;"></div>
       </div>
     </div>
   </div>
 
-  <!-- SECAO ATIVIDADES -->
+  <!-- ATIVIDADES -->
   <div class="secao" id="sec-atividades">
     <div class="conteudo conteudo-nav">
-      <h2 style="font-size:1.4rem;margin-bottom:4px;">Atividades de hoje</h2>
-      <p style="color:var(--cinza);font-size:0.85rem;margin-bottom:20px;">Dia <span id="dia-ativ">1</span> de 10 | <span id="pts-ativ">0</span>/16 pts</p>
-
+      <div class="seq-card">
+        <div><div class="seq-num" id="seq-num-ativ">0</div><div class="seq-txt">dias de sequencia</div></div>
+        <div style="font-size:1.8rem;">🔥</div>
+      </div>
+      <div class="pontos-hoje">
+        <div><div class="pontos-label">Pontos hoje</div><div class="pontos-num" id="pontos-hoje-num">0</div></div>
+        <div style="text-align:right;"><div class="pontos-label">Total no grupo</div><div class="pontos-total" id="pontos-total-num">0 pts</div><div style="font-size:0.75rem;color:var(--cinza);margin-top:4px;">Dia <span id="dia-ativ">1</span> de 10 | <span id="pts-ativ">0</span>/16 pts</div></div>
+      </div>
+      <div id="missao-card-ativ" class="missao-card hidden"><h3>Missao do dia</h3><p id="missao-texto-ativ"></p></div>
       <div class="ativ-grupo">
         <div class="ativ-grupo-titulo">Alimentacao (2 pts cada)</div>
-        <div class="ativ-item" id="ativ-cafe" onclick="toggleAtiv('cafe',2)">
-          <div class="ativ-info"><div class="ativ-nome">Cafe da manha concluido</div><div class="ativ-pts">2 pontos</div></div>
-          <div class="toggle"></div>
-        </div>
-        <div class="ativ-item" id="ativ-almoco" onclick="toggleAtiv('almoco',2)">
-          <div class="ativ-info"><div class="ativ-nome">Almoco concluido</div><div class="ativ-pts">2 pontos</div></div>
-          <div class="toggle"></div>
-        </div>
-        <div class="ativ-item" id="ativ-jantar" onclick="toggleAtiv('jantar',2)">
-          <div class="ativ-info"><div class="ativ-nome">Jantar concluido</div><div class="ativ-pts">2 pontos</div></div>
-          <div class="toggle"></div>
-        </div>
+        <div class="ativ-item" id="ativ-cafe" onclick="toggleAtiv('cafe',2)"><div class="ativ-info"><div class="ativ-nome">Cafe da manha concluido</div><div class="ativ-pts">2 pontos</div></div><div class="toggle"></div></div>
+        <div class="ativ-item" id="ativ-almoco" onclick="toggleAtiv('almoco',2)"><div class="ativ-info"><div class="ativ-nome">Almoco concluido</div><div class="ativ-pts">2 pontos</div></div><div class="toggle"></div></div>
+        <div class="ativ-item" id="ativ-jantar" onclick="toggleAtiv('jantar',2)"><div class="ativ-info"><div class="ativ-nome">Jantar concluido</div><div class="ativ-pts">2 pontos</div></div><div class="toggle"></div></div>
       </div>
-
       <div class="ativ-grupo">
         <div class="ativ-grupo-titulo">Hidratacao (1 pt)</div>
-        <div class="ativ-item" id="ativ-agua" onclick="toggleAtiv('agua',1)">
-          <div class="ativ-info"><div class="ativ-nome">Meta de agua batida</div><div class="ativ-pts">1 ponto</div></div>
-          <div class="toggle"></div>
-        </div>
+        <div class="ativ-item" id="ativ-agua" onclick="toggleAtiv('agua',1)"><div class="ativ-info"><div class="ativ-nome">Meta de agua batida</div><div class="ativ-pts">1 ponto</div></div><div class="toggle"></div></div>
       </div>
-
       <div class="ativ-grupo">
         <div class="ativ-grupo-titulo">Corpo e movimento (1 pt)</div>
-        <div class="ativ-item" id="ativ-exercicio" onclick="toggleAtiv('exercicio',1)">
-          <div class="ativ-info"><div class="ativ-nome">Atividade fisica feita</div><div class="ativ-pts">1 ponto</div></div>
-          <div class="toggle"></div>
-        </div>
+        <div class="ativ-item" id="ativ-exercicio" onclick="toggleAtiv('exercicio',1)"><div class="ativ-info"><div class="ativ-nome">Atividade fisica feita</div><div class="ativ-pts">1 ponto</div></div><div class="toggle"></div></div>
       </div>
-
       <div class="ativ-grupo">
         <div class="ativ-grupo-titulo">Comportamento e sono (1 pt cada)</div>
-        <div class="ativ-item" id="ativ-calma" onclick="toggleAtiv('calma',1)">
-          <div class="ativ-info"><div class="ativ-nome">Comi com calma e atencao</div><div class="ativ-pts">1 ponto</div></div>
-          <div class="toggle"></div>
-        </div>
-        <div class="ativ-item" id="ativ-sono" onclick="toggleAtiv('sono',1)">
-          <div class="ativ-info"><div class="ativ-nome">Dormi pelo menos 7h</div><div class="ativ-pts">1 ponto</div></div>
-          <div class="toggle"></div>
-        </div>
+        <div class="ativ-item" id="ativ-calma" onclick="toggleAtiv('calma',1)"><div class="ativ-info"><div class="ativ-nome">Comi com calma e atencao</div><div class="ativ-pts">1 ponto</div></div><div class="toggle"></div></div>
+        <div class="ativ-item" id="ativ-sono" onclick="toggleAtiv('sono',1)"><div class="ativ-info"><div class="ativ-nome">Dormi pelo menos 7h</div><div class="ativ-pts">1 ponto</div></div><div class="toggle"></div></div>
       </div>
-
       <div class="ativ-grupo">
         <div class="ativ-grupo-titulo">Missao do dia (3 pts)</div>
-        <div class="ativ-item" id="ativ-missao" onclick="toggleAtiv('missao',3)">
-          <div class="ativ-info"><div class="ativ-nome">Missao do dia concluida</div><div class="ativ-pts">3 pontos</div></div>
-          <div class="toggle"></div>
-        </div>
+        <div class="ativ-item" id="ativ-missao" onclick="toggleAtiv('missao',3)"><div class="ativ-info"><div class="ativ-nome">Missao do dia concluida</div><div class="ativ-pts">3 pontos</div></div><div class="toggle"></div></div>
       </div>
     </div>
   </div>
 
-  <!-- SECAO CARDAPIO -->
+  <!-- CARDAPIO -->
   <div class="secao" id="sec-cardapio">
     <div class="conteudo conteudo-nav">
-      <h2 style="font-size:1.4rem;margin-bottom:8px;">Meu Cardapio</h2>
-      <div id="cardapio-badge" class="cardapio-badge"></div>
-
-      <div class="card">
-        <h3 style="margin-bottom:12px;">Cafe da manha</h3>
-        <div class="cardapio-placeholder">O cardapio sera disponibilizado em breve pela nutricionista.</div>
-      </div>
-      <div class="card">
-        <h3 style="margin-bottom:12px;">Almoco</h3>
-        <div class="cardapio-placeholder">O cardapio sera disponibilizado em breve pela nutricionista.</div>
-      </div>
-      <div class="card">
-        <h3 style="margin-bottom:12px;">Jantar</h3>
-        <div class="cardapio-placeholder">O cardapio sera disponibilizado em breve pela nutricionista.</div>
-      </div>
-      <div class="card">
-        <h3 style="margin-bottom:12px;">Lanches</h3>
-        <div class="cardapio-placeholder">O cardapio sera disponibilizado em breve pela nutricionista.</div>
-      </div>
-
-      <div class="divider"></div>
-      <h2 style="font-size:1.2rem;margin-bottom:12px;">Lista de substituicoes</h2>
-      <div class="card">
-        <div class="cardapio-placeholder">A lista de substituicoes sera disponibilizada em breve.</div>
-      </div>
-
-      <div class="divider"></div>
-      <h2 style="font-size:1.2rem;margin-bottom:12px;">Ebook de receitas</h2>
-      <div id="ebook-link-wrap">
-        <div class="cardapio-placeholder">O link do ebook sera disponibilizado em breve.</div>
-      </div>
+      <h2 style="font-size:1.4rem;margin-bottom:20px;">Meu Cardapio</h2>
+      <div class="card" style="text-align:center;"><h3 style="margin-bottom:8px;font-size:1.1rem;">Cardapio personalizado</h3><p style="color:var(--cinza);font-size:0.88rem;margin-bottom:16px;">Acesse o seu cardapio completo pelo link abaixo.</p><div id="cardapio-link-wrap"><div class="cardapio-placeholder">O link do cardapio sera disponibilizado em breve.</div></div></div>
+      <div class="card" style="text-align:center;"><h3 style="margin-bottom:8px;font-size:1.1rem;">Lista de substituicoes</h3><p style="color:var(--cinza);font-size:0.88rem;margin-bottom:16px;">Substituicoes permitidas no seu cardapio.</p><div id="substituicoes-link-wrap"><div class="cardapio-placeholder">O link sera disponibilizado em breve.</div></div></div>
+      <div class="card" style="text-align:center;"><h3 style="margin-bottom:8px;font-size:1.1rem;">Lista de compras</h3><p style="color:var(--cinza);font-size:0.88rem;margin-bottom:16px;">Tudo que voce precisa comprar para a semana.</p><div id="compras-link-wrap"><div class="cardapio-placeholder">O link sera disponibilizado em breve.</div></div></div>
+      <div class="card" style="text-align:center;"><h3 style="margin-bottom:8px;font-size:1.1rem;">Ebook de receitas</h3><p style="color:var(--cinza);font-size:0.88rem;margin-bottom:16px;">Receitas praticas e saborosas para o seu dia a dia.</p><div id="ebook-link-wrap"><div class="cardapio-placeholder">O link do ebook sera disponibilizado em breve.</div></div></div>
     </div>
   </div>
 
-  <!-- SECAO RANKING -->
+  <!-- DIARIO -->
+  <div class="secao" id="sec-diario">
+    <div class="conteudo conteudo-nav">
+      <h2 style="font-size:1.4rem;margin-bottom:16px;">Diario alimentar</h2>
+      <div class="card diario-form">
+        <div class="form-group"><label>Refeicao</label><select id="diario-refeicao"><option>Cafe da manha</option><option>Lanche da manha</option><option>Almoco</option><option>Lanche da tarde</option><option>Jantar</option><option>Ceia</option></select></div>
+        <div class="form-group"><label>O que voce comeu?</label><textarea id="diario-texto-input" placeholder="Descreva sua refeicao..."></textarea></div>
+        <button class="btn btn-primary btn-full" onclick="salvarDiario()">Registrar</button>
+      </div>
+      <h3 style="font-size:1.05rem;margin-bottom:10px;">Registros de hoje</h3>
+      <div id="diario-lista"><div class="loading"><div class="spinner"></div>Carregando...</div></div>
+    </div>
+  </div>
+
+  <!-- RANKING -->
   <div class="secao" id="sec-ranking">
     <div class="conteudo conteudo-nav">
       <h2 style="font-size:1.4rem;margin-bottom:16px;">Ranking</h2>
-      <div id="ranking-lista">
-        <div class="loading"><div class="spinner"></div>Carregando...</div>
-      </div>
+      <div id="ranking-lista"><div class="loading"><div class="spinner"></div>Carregando...</div></div>
     </div>
   </div>
 
-  <!-- SECAO MAIS -->
-  <div class="secao" id="sec-mais">
-    <div class="conteudo conteudo-nav">
-      <div class="perfil-avatar" id="mais-avatar"></div>
-      <div class="perfil-nome" id="mais-nome"></div>
-      <div class="perfil-sub" id="mais-sub"></div>
-
-      <div class="seq-card">
-        <div>
-          <div class="seq-num" id="mais-seq">0</div>
-          <div class="seq-txt">dias de sequencia</div>
-        </div>
-        <div style="font-size:2rem;">🔥</div>
-      </div>
-
-      <div style="display:flex;flex-direction:column;gap:10px;">
-        <button class="btn btn-outline btn-full" onclick="mostrarSubsecao('diario')">Diario alimentar</button>
-        <button class="btn btn-outline btn-full" onclick="mostrarSubsecao('agua')">Calculadora de agua</button>
-        <button class="btn btn-outline btn-full" onclick="mostrarSubsecao('peso')">Registro de peso</button>
-        <button class="btn btn-outline btn-full" onclick="mostrarSubsecao('perfil')">Editar perfil</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- SUB-SECAO DIARIO -->
-  <div class="secao" id="sec-diario">
-    <div class="header" style="background:white;color:var(--verde-escuro);border-bottom:1px solid #eee;">
-      <button class="btn-icon" style="color:var(--verde-escuro);" onclick="voltarMais()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
-      <h1 style="font-size:1.2rem;">Diario alimentar</h1>
-      <div style="width:32px;"></div>
-    </div>
-    <div class="conteudo conteudo-nav">
-      <div class="card diario-form">
-        <div class="form-group">
-          <label>Refeicao</label>
-          <select id="diario-refeicao">
-            <option>Cafe da manha</option>
-            <option>Lanche da manha</option>
-            <option>Almoco</option>
-            <option>Lanche da tarde</option>
-            <option>Jantar</option>
-            <option>Ceia</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>O que voce comeu?</label>
-          <textarea id="diario-texto-input" placeholder="Descreva sua refeicao..."></textarea>
-        </div>
-        <button class="btn btn-primary btn-full" onclick="salvarDiario()">Registrar</button>
-      </div>
-      <h3 style="font-size:1.1rem;margin-bottom:12px;">Registros de hoje</h3>
-      <div id="diario-lista">
-        <div class="loading"><div class="spinner"></div>Carregando...</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SUB-SECAO AGUA -->
-  <div class="secao" id="sec-agua">
-    <div class="header" style="background:white;color:var(--verde-escuro);border-bottom:1px solid #eee;">
-      <button class="btn-icon" style="color:var(--verde-escuro);" onclick="voltarMais()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
-      <h1 style="font-size:1.2rem;">Agua do dia</h1>
-      <div style="width:32px;"></div>
-    </div>
-    <div class="conteudo conteudo-nav">
-      <div class="card">
-        <div class="agua-meta">
-          <div class="agua-litros" id="agua-atual-l">0L</div>
-          <div class="agua-sub">de <span id="agua-meta-l">0L</span> por dia</div>
-        </div>
-        <div class="agua-copos" id="agua-copos"></div>
-        <p style="text-align:center;font-size:0.8rem;color:var(--cinza);">Cada copo = 250ml. Clique para marcar.</p>
-      </div>
-      <div class="card" style="text-align:center;">
-        <p style="font-size:0.85rem;color:var(--cinza);">Sua meta baseada no peso</p>
-        <p style="font-size:1.1rem;font-weight:600;color:var(--verde-escuro);margin-top:4px;"><span id="agua-meta-detalhes"></span></p>
-      </div>
-    </div>
-  </div>
-
-  <!-- SUB-SECAO PESO -->
-  <div class="secao" id="sec-peso">
-    <div class="header" style="background:white;color:var(--verde-escuro);border-bottom:1px solid #eee;">
-      <button class="btn-icon" style="color:var(--verde-escuro);" onclick="voltarMais()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
-      <h1 style="font-size:1.2rem;">Registro de peso</h1>
-      <div style="width:32px;"></div>
-    </div>
-    <div class="conteudo conteudo-nav">
-      <div class="peso-dias" id="peso-dias-cards"></div>
-      <div id="peso-input-wrap" class="card hidden">
-        <h3 style="margin-bottom:12px;">Registrar peso do dia <span id="peso-dia-label"></span></h3>
-        <div class="form-group">
-          <input type="number" id="peso-input" placeholder="Ex: 72.5" step="0.1" min="30" max="200">
-        </div>
-        <button class="btn btn-primary btn-full" onclick="salvarPeso()">Salvar</button>
-      </div>
-      <div class="peso-grafico" id="peso-grafico" style="display:none;">
-        <h3 style="margin-bottom:16px;font-size:1.1rem;">Evolucao do peso</h3>
-        <div class="grafico-barra-wrap" id="grafico-barras"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SUB-SECAO EDITAR PERFIL -->
+  <!-- PERFIL -->
   <div class="secao" id="sec-perfil">
-    <div class="header" style="background:white;color:var(--verde-escuro);border-bottom:1px solid #eee;">
-      <button class="btn-icon" style="color:var(--verde-escuro);" onclick="voltarMais()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
-      </button>
-      <h1 style="font-size:1.2rem;">Editar perfil</h1>
-      <div style="width:32px;"></div>
-    </div>
     <div class="conteudo conteudo-nav">
+      <div class="perfil-avatar" id="perfil-avatar-txt"></div>
+      <div class="perfil-nome-txt" id="perfil-nome-txt"></div>
+      <div class="perfil-sub-txt" id="perfil-sub-txt"></div>
+      <div class="card"><h3 style="font-size:1.1rem;margin-bottom:14px;">Meus dados</h3><div id="perfil-dados-lista"></div></div>
       <div class="card">
+        <h3 style="font-size:1.1rem;margin-bottom:14px;">Editar perfil</h3>
         <div id="perfil-msg-ok" class="msg-ok"></div>
-        <div class="form-group">
-          <label>Nome completo</label>
-          <input type="text" id="perfil-nome-input">
-        </div>
-        <div class="form-group">
-          <label>Nova senha (deixe em branco para manter)</label>
-          <input type="password" id="perfil-senha-input" placeholder="Nova senha">
-        </div>
-        <div class="form-group">
-          <label>Peso atual (kg)</label>
-          <input type="number" id="perfil-peso-input" step="0.1" min="30" max="200">
-        </div>
-        <div class="form-group">
-          <label>Altura (cm)</label>
-          <input type="number" id="perfil-altura-input" min="100" max="250">
-        </div>
-        <div class="form-group">
-          <label>Usa caneta emagrecedora?</label>
-          <select id="perfil-caneta-input">
-            <option value="nao">Nao</option>
-            <option value="sim">Sim</option>
-          </select>
-        </div>
+        <div class="form-group"><label>Nome completo</label><input type="text" id="perfil-nome-input"></div>
+        <div class="form-group"><label>Nova senha (deixe em branco para manter)</label><input type="password" id="perfil-senha-input" placeholder="Nova senha"></div>
+        <div class="form-group"><label>Peso atual (kg)</label><input type="number" id="perfil-peso-input" step="0.1" min="30" max="200"></div>
+        <div class="form-group"><label>Altura (cm)</label><input type="number" id="perfil-altura-input" min="100" max="250"></div>
+        <div class="form-group"><label>Usa caneta emagrecedora?</label><select id="perfil-caneta-input"><option value="nao">Nao</option><option value="sim">Sim</option></select></div>
         <button class="btn btn-primary btn-full" onclick="salvarPerfil()">Salvar alteracoes</button>
       </div>
     </div>
   </div>
 
-  <!-- NAV BOTTOM -->
+  <!-- NAV 6 ABAS -->
   <nav class="nav-bottom">
     <button class="nav-item ativa" onclick="mostrarSecao('inicio')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      Inicio
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Inicio
     </button>
     <button class="nav-item" onclick="mostrarSecao('atividades')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-      Atividades
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Atividades
     </button>
     <button class="nav-item" onclick="mostrarSecao('cardapio')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
-      Cardapio
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>Cardapio
+    </button>
+    <button class="nav-item" onclick="mostrarSecao('diario')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Diario
     </button>
     <button class="nav-item" onclick="mostrarSecao('ranking');carregarRanking()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-      Ranking
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Ranking
     </button>
-    <button class="nav-item" onclick="mostrarSecao('mais');preencherMais()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-      Mais
+    <button class="nav-item" onclick="mostrarSecao('perfil');preencherPerfil()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Perfil
     </button>
   </nav>
 </div>
 
-<!-- TELA ADMIN -->
+<!-- ADMIN -->
 <div class="tela" id="tela-admin">
   <div class="header">
     <h1>Painel Admin</h1>
-    <button class="btn-icon" onclick="fazerLogout()" style="display:flex;align-items:center;gap:6px;font-size:0.85rem;padding:8px 12px;border-radius:8px;background:rgba(255,255,255,0.15);">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-      Sair
+    <button class="btn-sair" onclick="fazerLogout()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>Sair
     </button>
   </div>
   <div class="conteudo" style="padding-bottom:40px;">
@@ -682,8 +422,6 @@ h1,h2,h3 { font-family: 'Cormorant Garamond', serif; }
       <button class="admin-tab" onclick="adminTab('config')">Configuracoes</button>
       <button class="admin-tab" onclick="adminTab('teste')">Modo teste</button>
     </div>
-
-    <!-- VISAO GERAL -->
     <div class="admin-content ativa" id="admin-visao">
       <div class="admin-section">
         <h3>Resumo do grupo</h3>
@@ -692,45 +430,51 @@ h1,h2,h3 { font-family: 'Cormorant Garamond', serif; }
         <div class="admin-stat"><span>Dia atual do grupo</span><strong id="adm-dia">-</strong></div>
         <div class="admin-stat"><span>Media de pontos</span><strong id="adm-media">-</strong></div>
       </div>
-      <div class="admin-section">
-        <h3>Ranking completo</h3>
-        <div id="adm-ranking-lista"></div>
-      </div>
+      <div class="admin-section"><h3>Ranking completo</h3><div id="adm-ranking-lista"></div></div>
       <button class="btn btn-primary btn-full" onclick="exportarDados()">Exportar dados (CSV)</button>
     </div>
-
-    <!-- PARTICIPANTES -->
-    <div class="admin-content" id="admin-participantes">
-      <div id="adm-part-lista">
-        <div class="loading"><div class="spinner"></div>Carregando...</div>
-      </div>
-    </div>
-
-    <!-- CONFIGURACOES -->
+    <div class="admin-content" id="admin-participantes"><div id="adm-part-lista"><div class="loading"><div class="spinner"></div>Carregando...</div></div></div>
     <div class="admin-content" id="admin-config">
       <div class="card">
-        <h3 style="margin-bottom:16px;font-size:1.1rem;">Data de inicio do grupo</h3>
-        <div class="form-group">
-          <label>Data e hora de inicio</label>
-          <input type="datetime-local" id="adm-data-inicio">
-        </div>
+        <h3 style="margin-bottom:10px;font-size:1rem;">Dia zero (liberacao dos materiais)</h3>
+        <p style="font-size:0.82rem;color:var(--cinza);margin-bottom:12px;">A partir desta data as participantes acessam cardapio, listas e ebook. As atividades e pontuacao so comecam na data de inicio abaixo.</p>
+        <div class="form-group"><label>Data e hora do dia zero</label><input type="datetime-local" id="adm-data-zero"></div>
+        <button class="btn btn-primary btn-full" onclick="salvarDataZero()">Salvar dia zero</button>
+      </div>
+      <div class="card">
+        <h3 style="margin-bottom:10px;font-size:1rem;">Inicio do grupo (dia 1)</h3>
+        <div class="form-group"><label>Data e hora de inicio</label><input type="datetime-local" id="adm-data-inicio"></div>
         <button class="btn btn-primary btn-full" onclick="salvarDataInicio()">Salvar data de inicio</button>
       </div>
       <div class="card">
-        <h3 style="margin-bottom:16px;font-size:1.1rem;">Link do Ebook</h3>
-        <div class="form-group">
-          <label>URL do ebook de receitas</label>
-          <input type="url" id="adm-ebook-link" placeholder="https://...">
-        </div>
-        <button class="btn btn-primary btn-full" onclick="salvarEbook()">Salvar link</button>
+        <h3 style="margin-bottom:10px;font-size:1rem;">Links dos Cardapios</h3>
+        <div class="form-group"><label>1400 kcal convencional</label><input type="url" id="adm-link-1400_kcal_convencional" placeholder="https://..."></div>
+        <div class="form-group"><label>1400 kcal caneta</label><input type="url" id="adm-link-1400_kcal_caneta" placeholder="https://..."></div>
+        <div class="form-group"><label>1600 kcal convencional</label><input type="url" id="adm-link-1600_kcal_convencional" placeholder="https://..."></div>
+        <div class="form-group"><label>1600 kcal caneta</label><input type="url" id="adm-link-1600_kcal_caneta" placeholder="https://..."></div>
+        <button class="btn btn-primary btn-full" onclick="salvarLinksCardapio()">Salvar links dos cardapios</button>
+      </div>
+      <div class="card">
+        <h3 style="margin-bottom:10px;font-size:1rem;">Links das Substituicoes</h3>
+        <div class="form-group"><label>Substituicoes sem caneta</label><input type="url" id="adm-sub-convencional" placeholder="https://..."></div>
+        <div class="form-group"><label>Substituicoes com caneta</label><input type="url" id="adm-sub-caneta" placeholder="https://..."></div>
+        <button class="btn btn-primary btn-full" onclick="salvarLinksSubstituicoes()">Salvar links das substituicoes</button>
+      </div>
+      <div class="card">
+        <h3 style="margin-bottom:10px;font-size:1rem;">Lista de compras</h3>
+        <div class="form-group"><label>Link da lista de compras</label><input type="url" id="adm-compras-link" placeholder="https://..."></div>
+        <button class="btn btn-primary btn-full" onclick="salvarCompras()">Salvar lista de compras</button>
+      </div>
+      <div class="card">
+        <h3 style="margin-bottom:10px;font-size:1rem;">Ebook de receitas</h3>
+        <div class="form-group"><label>Link do ebook</label><input type="url" id="adm-ebook-link" placeholder="https://..."></div>
+        <button class="btn btn-primary btn-full" onclick="salvarEbook()">Salvar ebook</button>
       </div>
     </div>
-
-    <!-- MODO TESTE -->
     <div class="admin-content" id="admin-teste">
       <div class="card" style="border:2px solid var(--terracota);">
         <h3 style="color:var(--terracota);margin-bottom:12px;">Modo Teste</h3>
-        <p style="font-size:0.9rem;color:var(--cinza);margin-bottom:16px;line-height:1.6;">Esta acao apaga todos os dados de participantes e registros (atividades, diarios, pontos, pesos). A estrutura do app e as configuracoes sao mantidas. Nao e possivel desfazer.</p>
+        <p style="font-size:0.88rem;color:var(--cinza);margin-bottom:16px;line-height:1.6;">Apaga todos os dados de participantes e registros. Configuracoes sao mantidas. Nao e possivel desfazer.</p>
         <button class="btn btn-secondary btn-full" onclick="confirmarLimpeza()">Apagar dados de participantes</button>
       </div>
     </div>
@@ -738,918 +482,250 @@ h1,h2,h3 { font-family: 'Cormorant Garamond', serif; }
 </div>
 
 <script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import { getFirestore, doc, getDoc, setDoc, addDoc, collection, query, where, getDocs, updateDoc, deleteDoc, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+import{initializeApp}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import{getFirestore,doc,getDoc,setDoc,addDoc,collection,query,where,getDocs,updateDoc,deleteDoc}from'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+const fb=initializeApp({apiKey:"AIzaSyBxdldL3Rwr2LrzLRkp4SUeZa7LyS_1PoI",authDomain:"dose-certa-d36e8.firebaseapp.com",projectId:"dose-certa-d36e8",storageBucket:"dose-certa-d36e8.firebasestorage.app",messagingSenderId:"167590739888",appId:"1:167590739888:web:42b4db1869fa1444f86075"});
+const db=getFirestore(fb);
+let U=null,C={},AH={};
+const MISSOES=["Tire uma foto do seu cafe da manha e mande no grupo. Seu primeiro registro comeca hoje.","Beba o primeiro copo de agua antes de qualquer outra coisa pela manha.","Saia 10 minutos para caminhar, sozinha, sem celular na mao.","Anote tudo que comeu hoje no diario alimentar, sem pular nada.","Tire uma foto do seu almoco arrumado no prato, antes de comer.","Durma hoje sem celular na cama. Deixe carregando longe de voce.","Pese hoje e registre no app. Metade do caminho, hora de ver o resultado.","Escreva no grupo como esta se sentindo nesses 8 dias.","Tire print do seu ranking hoje e mande no grupo. Mostre onde voce esta na reta final.","Mande a foto da balanca do primeiro e do ultimo dia no grupo."];
+const FRASES=["Cada escolha certa e um passo mais perto de quem voce quer ser.","Voce nao precisa ser perfeita. Precisa ser consistente.","O corpo que voce quer e construido com os habitos de hoje.","Cuide de voce com a mesma dedicacao que cuida dos outros.","Pequenos progressos tambem sao progressos.","Voce ja fez coisas dificeis antes. Isso tambem voce consegue.","Nao e sobre ser a melhor. E sobre ser melhor que ontem.","Sua saude e o melhor investimento que voce pode fazer.","Comece onde voce esta. Use o que voce tem. Faca o que voce pode.","A transformacao acontece uma decisao de cada vez.","Voce merece sentir leveza, energia e bem-estar.","Cada copo de agua e um ato de amor por si mesma.","O desconforto de mudar e menor que o peso de ficar igual.","Voce esta mais forte do que imagina.","Nao desista de voce. Nunca.","O que voce faz hoje importa mais do que o que voce planeja fazer amanha.","Habito e repetir mesmo quando nao quer. E isso que transforma.","Voce chegou ate aqui. Isso ja e uma vitoria.","Seu corpo esta te ouvindo. Diga coisas boas a ele.","A versao mais saudavel de voce esta esperando cada escolha certa.","Um dia de cada vez. Um habito de cada vez.","Voce nao precisa de motivacao. Precisa de disciplina.","A mudanca que voce quer ver comeca na proxima refeicao.","Confie no processo. Os resultados virao.","Dormir bem e tao importante quanto comer bem.","Cada vez que voce completa o dia, voce vence.","O ranking e uma corrida com voce mesma.","Agua, movimento e atencao. E isso que muda o corpo.","Voce e capaz. Voce e suficiente. Voce esta no caminho certo.","Dez dias podem mudar muito. Deixa."];
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBxdldL3Rwr2LrzLRkp4SUeZa7LyS_1PoI",
-  authDomain: "dose-certa-d36e8.firebaseapp.com",
-  projectId: "dose-certa-d36e8",
-  storageBucket: "dose-certa-d36e8.firebasestorage.app",
-  messagingSenderId: "167590739888",
-  appId: "1:167590739888:web:42b4db1869fa1444f86075"
+function tela(id){document.querySelectorAll('.tela').forEach(t=>t.classList.remove('ativa'));document.getElementById(id).classList.add('ativa')}
+function erro(id,m){const e=document.getElementById(id);e.textContent=m;e.style.display='block';setTimeout(()=>e.style.display='none',4000)}
+function ok(id,m){const e=document.getElementById(id);e.textContent=m;e.style.display='block';setTimeout(()=>e.style.display='none',4000)}
+function hash(s){let h=0;for(let i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h=h&h}return h.toString(36)}
+
+// Fuso Brasil GMT-3
+function hojeBR(){const a=new Date();const b=new Date(a.getTime()-(3*3600000));return b.toISOString().split('T')[0]}
+function agoraBRDate(){return new Date(new Date().getTime()-(3*3600000))}
+
+function diaDesafio(){
+  if(!C.dataInicio)return 1;
+  const ini=new Date(C.dataInicio);
+  const iniBR=new Date(ini.getTime()-(3*3600000));
+  const hojeBRDate=new Date(agoraBRDate().toISOString().split('T')[0]+'T00:00:00');
+  const iniBRDate=new Date(iniBR.toISOString().split('T')[0]+'T00:00:00');
+  const d=Math.floor((hojeBRDate-iniBRDate)/86400000)+1;
+  return Math.min(Math.max(d,1),10);
+}
+
+function imc(p,a){return p/((a/100)**2)}
+function classImc(v){if(v<18.5)return"Abaixo do peso";if(v<25)return"Peso normal";if(v<30)return"Sobrepeso";if(v<35)return"Obesidade grau I";if(v<40)return"Obesidade grau II";return"Obesidade grau III"}
+function cardapioPerfil(v,c){if(v<30&&c==='nao')return'1400 kcal convencional';if(v<30&&c==='sim')return'1400 kcal caneta';if(v>=30&&c==='nao')return'1600 kcal convencional';return'1600 kcal caneta'}
+function metaAgua(p){return Math.round(p*35)/1000}
+function frase(uid){const s=(uid+hojeBR()).split('').reduce((a,c)=>a+c.charCodeAt(0),0);return FRASES[s%FRASES.length]}
+function iniciais(n){const p=n.trim().split(' ');return p.length===1?p[0][0].toUpperCase():(p[0][0]+p[p.length-1][0]).toUpperCase()}
+
+async function inicializar(){
+  try{const d=await getDoc(doc(db,'config','geral'));if(d.exists())C=d.data()}catch(e){}
+  const s=sessionStorage.getItem('dc_u');
+  if(s){U=JSON.parse(s);if(U.admin){adminInicio();return}if(U.peso&&U.altura){appInicio()}else{tela('tela-calculadora')}return}
+  const alvo=C.dataZero?new Date(C.dataZero):C.dataInicio?new Date(C.dataInicio):null;
+  if(alvo&&new Date()<alvo){emBreve(alvo);return}
+  tela('tela-login');
+}
+
+function emBreve(alvo){
+  tela('tela-embreve');
+  function up(){const d=alvo-new Date();if(d<=0){tela('tela-login');return}const di=Math.floor(d/86400000),h=Math.floor((d%86400000)/3600000),m=Math.floor((d%3600000)/60000),s=Math.floor((d%60000)/1000);document.getElementById('cnt-dias').textContent=String(di).padStart(2,'0');document.getElementById('cnt-horas').textContent=String(h).padStart(2,'0');document.getElementById('cnt-min').textContent=String(m).padStart(2,'0');document.getElementById('cnt-seg').textContent=String(s).padStart(2,'0')}
+  up();setInterval(up,1000);
+}
+window.mostrarLogin=()=>tela('tela-login');
+
+window.mudarTab=function(t){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('ativa'));event.target.classList.add('ativa');document.getElementById('form-login').classList.toggle('hidden',t!=='login');document.getElementById('form-cadastro').classList.toggle('hidden',t!=='cadastro');document.getElementById('msg-erro').style.display='none'};
+
+window.fazerLogin=async function(){
+  const n=document.getElementById('login-nome').value.trim(),s=document.getElementById('login-senha').value.trim();
+  if(!n||!s){erro('msg-erro','Preencha nome e senha.');return}
+  if(n==='Talita Codogni'&&s==='131205'){U={nome:'Talita Codogni',admin:true};sessionStorage.setItem('dc_u',JSON.stringify(U));adminInicio();return}
+  try{const k=n.toLowerCase().replace(/\s+/g,'_'),d=await getDoc(doc(db,'usuarios',k));if(!d.exists()){erro('msg-erro','Usuario nao encontrado.');return}const dd=d.data();if(dd.senha!==hash(s)){erro('msg-erro','Senha incorreta.');return}U={...dd,id:k};sessionStorage.setItem('dc_u',JSON.stringify(U));if(U.peso&&U.altura){appInicio()}else{tela('tela-calculadora')}}catch(e){erro('msg-erro','Erro ao entrar.')}
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+window.fazerCadastro=async function(){
+  const fn=document.getElementById('cad-nome').value.trim(),sn=document.getElementById('cad-sobrenome').value.trim(),n=fn+' '+sn,s=document.getElementById('cad-senha').value.trim(),s2=document.getElementById('cad-senha2').value.trim();
+  if(!fn){erro('msg-erro','Preencha o campo Nome.');return}if(!sn){erro('msg-erro','Preencha o campo Sobrenome.');return}if(!s||s.length<4){erro('msg-erro','Senha deve ter ao menos 4 caracteres.');return}if(s!==s2){erro('msg-erro','Senhas nao conferem.');return}
+  const k=n.toLowerCase().replace(/\s+/g,'_');
+  try{const ex=await getDoc(doc(db,'usuarios',k));if(ex.exists()){erro('msg-erro','Este nome ja esta cadastrado.');return}const d={nome:n,senha:hash(s),dataCadastro:new Date().toISOString(),peso:null,altura:null,caneta:'nao',cardapio:null,imc:null};await setDoc(doc(db,'usuarios',k),d);U={...d,id:k};sessionStorage.setItem('dc_u',JSON.stringify(U));tela('tela-calculadora')}catch(e){erro('msg-erro','Erro ao cadastrar.')}
+};
 
-// Estado global
-let usuarioAtual = null;
-let configGlobal = {};
-let ativHoje = {};
+window.calcularIMC=async function(){
+  const p=parseFloat(document.getElementById('calc-peso').value),a=parseFloat(document.getElementById('calc-altura').value),c=document.getElementById('calc-caneta').value;
+  if(!p||!a||p<30||a<100){erro('calc-msg-erro','Preencha peso e altura corretamente.');return}
+  const v=imc(p,a),cp=cardapioPerfil(v,c),ma=metaAgua(p);
+  document.getElementById('imc-val').textContent=v.toFixed(1);document.getElementById('imc-class').textContent=classImc(v);document.getElementById('imc-resultado').classList.remove('hidden');
+  const upd={peso:p,altura:a,caneta:c,imc:v.toFixed(1),cardapio:cp,metaAgua:ma};
+  try{await updateDoc(doc(db,'usuarios',U.id),upd);U={...U,...upd};sessionStorage.setItem('dc_u',JSON.stringify(U));await setDoc(doc(db,'pesos',U.id+'_dia1'),{userId:U.id,dia:1,peso:p,data:hojeBR()});setTimeout(()=>appInicio(),1200)}catch(e){erro('calc-msg-erro','Erro ao salvar.')}
+};
 
-const MISSOES = [
-  "Tire uma foto do seu cafe da manha e mande no grupo. Seu primeiro registro comeca hoje.",
-  "Beba o primeiro copo de agua antes de qualquer outra coisa pela manha.",
-  "Saia 10 minutos para caminhar, sozinha, sem celular na mao.",
-  "Anote tudo que comeu hoje no diario alimentar, sem pular nada.",
-  "Tire uma foto do seu almoco arrumado no prato, antes de comer.",
-  "Durma hoje sem celular na cama. Deixe carregando longe de voce.",
-  "Pese hoje e registre no app. Metade do caminho, hora de ver o resultado.",
-  "Escreva no grupo como esta se sentindo nesses 8 dias.",
-  "Tire print do seu ranking hoje e mande no grupo. Mostre onde voce esta na reta final.",
-  "Mande a foto da balanca do primeiro e do ultimo dia no grupo."
-];
-
-const FRASES = [
-  "Cada escolha certa e um passo mais perto de quem voce quer ser.",
-  "Voce nao precisa ser perfeita. Precisa ser consistente.",
-  "O corpo que voce quer e construido com os habitos de hoje.",
-  "Cuide de voce com a mesma dedicacao que cuida dos outros.",
-  "Pequenos progressos tambem sao progressos.",
-  "Voce ja fez coisas dificeis antes. Isso tambem voce consegue.",
-  "Nao e sobre ser a melhor. E sobre ser melhor que ontem.",
-  "Sua saude e o melhor investimento que voce pode fazer.",
-  "Comece onde voce esta. Use o que voce tem. Faca o que voce pode.",
-  "A transformacao acontece uma decisao de cada vez.",
-  "Voce merece sentir leveza, energia e bem-estar.",
-  "Cada copo de agua e um ato de amor por si mesma.",
-  "O desconforto de mudar e menor que o peso de ficar igual.",
-  "Voce esta mais forte do que imagina.",
-  "Nao desista de voce. Nunca.",
-  "O que voce faz hoje importa mais do que o que voce planeja fazer amanha.",
-  "Habito e repetir mesmo quando nao quer. E isso que transforma.",
-  "Voce chegou ate aqui. Isso ja e uma vitoria.",
-  "Seu corpo esta te ouvindo. Diga coisas boas a ele.",
-  "A versao mais saudavel de voce esta esperando cada escolha certa.",
-  "Um dia de cada vez. Um habito de cada vez.",
-  "Voce nao precisa de motivacao. Precisa de disciplina.",
-  "A mudanca que voce quer ver começa na proxima refeicao.",
-  "Confie no processo. Os resultados virao.",
-  "Dormir bem e tao importante quanto comer bem.",
-  "Cada vez que voce completa o dia, voce vence.",
-  "O ranking e uma corrida com voce mesma.",
-  "Agua, movimento e atencao. E isso que muda o corpo.",
-  "Voce e capaz. Voce e suficiente. Voce esta no caminho certo.",
-  "Dez dias podem mudar muito. Deixa."
-];
-
-// ===== UTILIDADES =====
-function mostrarTela(id) {
-  document.querySelectorAll('.tela').forEach(t => t.classList.remove('ativa'));
-  document.getElementById(id).classList.add('ativa');
+async function appInicio(){
+  tela('tela-app');document.getElementById('header-nome').textContent=U.nome.split(' ')[0];
+  linksCardapio();await carregarAtiv();await atualizarTela();aguaInline();pesoInline();diario();
 }
 
-function mostrarErro(id, msg) {
-  const el = document.getElementById(id);
-  el.textContent = msg;
-  el.style.display = 'block';
-  setTimeout(() => el.style.display = 'none', 4000);
+function linksCardapio(){
+  const ck=U.cardapio?U.cardapio.replace(/\s+/g,'_').toLowerCase():null;
+  if(ck&&C['cardapioLink_'+ck])document.getElementById('cardapio-link-wrap').innerHTML=`<a href="${C['cardapioLink_'+ck]}" target="_blank" class="btn btn-primary btn-full">Abrir meu Cardapio</a>`;
+  const sk=U.caneta==='sim'?'caneta':'convencional';
+  if(C['substituicoesLink_'+sk])document.getElementById('substituicoes-link-wrap').innerHTML=`<a href="${C['substituicoesLink_'+sk]}" target="_blank" class="btn btn-outline btn-full">Abrir Lista de Substituicoes</a>`;
+  if(C.comprasLink)document.getElementById('compras-link-wrap').innerHTML=`<a href="${C.comprasLink}" target="_blank" class="btn btn-outline btn-full">Abrir Lista de Compras</a>`;
+  if(C.ebookLink)document.getElementById('ebook-link-wrap').innerHTML=`<a href="${C.ebookLink}" target="_blank" class="btn btn-secondary btn-full">Abrir Ebook de Receitas</a>`;
 }
 
-function mostrarOk(id, msg) {
-  const el = document.getElementById(id);
-  el.textContent = msg;
-  el.style.display = 'block';
-  setTimeout(() => el.style.display = 'none', 4000);
+async function atualizarTela(){
+  const d=diaDesafio();document.getElementById('dia-atual-num').textContent=d;document.getElementById('dia-ativ').textContent=d;
+  let h='';for(let i=1;i<=10;i++){const c=i<d?'feito':i===d?'hoje':'';h+=`<div class="dia-bolinha ${c}"></div>`}document.getElementById('dias-bolinhas').innerHTML=h;
+  document.getElementById('frase-texto').textContent=frase(U.id);
+  if(d>=1&&d<=10){document.getElementById('missao-texto-ativ').textContent=MISSOES[d-1];document.getElementById('missao-card-ativ').classList.remove('hidden')}
+  await pontos();
 }
 
-function hashSenha(senha) {
-  // hash simples para armazenar senhas
-  let h = 0;
-  for (let i = 0; i < senha.length; i++) {
-    const char = senha.charCodeAt(i);
-    h = ((h << 5) - h) + char;
-    h = h & h;
-  }
-  return h.toString(36);
+async function carregarAtiv(){
+  const k=U.id+'_'+hojeBR();
+  try{const d=await getDoc(doc(db,'atividades',k));AH=d.exists()?d.data():{}}catch(e){AH={}}
+  ['cafe','almoco','jantar','agua','exercicio','calma','sono','missao'].forEach(c=>{const e=document.getElementById('ativ-'+c);if(e)e.classList.toggle('marcado',!!AH[c])});
 }
 
-function dataHoje() {
-  return new Date().toISOString().split('T')[0];
+async function pontos(){
+  const campos={cafe:2,almoco:2,jantar:2,agua:1,exercicio:1,calma:1,sono:1,missao:3};
+  let pd=0;for(const[k,v]of Object.entries(campos)){if(AH[k])pd+=v}
+  document.getElementById('pontos-hoje-num').textContent=pd;document.getElementById('pts-ativ').textContent=pd;
+  document.getElementById('parabens-banner').classList.toggle('hidden',pd<16);
+  const{total:t,seq:s}=await totalSeq();
+  document.getElementById('pontos-total-num').textContent=t+' pts';document.getElementById('seq-num-ativ').textContent=s;
 }
 
-function diaDesafio() {
-  if (!configGlobal.dataInicio) return 1;
-  const inicio = new Date(configGlobal.dataInicio);
-  const hoje = new Date();
-  hoje.setHours(0,0,0,0);
-  inicio.setHours(0,0,0,0);
-  const diff = Math.floor((hoje - inicio) / 86400000) + 1;
-  return Math.min(Math.max(diff, 1), 10);
+async function totalSeq(){
+  let total=0,seq=0;const campos={cafe:2,almoco:2,jantar:2,agua:1,exercicio:1,calma:1,sono:1,missao:3};
+  try{const sn=await getDocs(query(collection(db,'atividades'),where('userId','==',U.id)));const dm={};sn.forEach(d=>{const dd=d.data();let p=0;for(const[k,v]of Object.entries(campos)){if(dd[k])p+=v}dm[dd.data]=(dm[dd.data]||0)+p;total+=p});const ab=agoraBRDate();for(let i=0;i<10;i++){const x=new Date(ab);x.setDate(x.getDate()-i);const k=x.toISOString().split('T')[0];if(dm[k]&&dm[k]>0)seq++;else if(i>0)break}}catch(e){}
+  return{total,seq};
 }
 
-function calcularIMCInterno(peso, altura) {
-  const altM = altura / 100;
-  return peso / (altM * altM);
+window.toggleAtiv=async function(campo,pts){
+  const el=document.getElementById('ativ-'+campo),nv=!AH[campo];el.classList.toggle('marcado',nv);AH[campo]=nv;
+  const k=U.id+'_'+hojeBR();
+  try{await setDoc(doc(db,'atividades',k),{...AH,userId:U.id,data:hojeBR(),dia:diaDesafio()},{merge:true});await pontos()}catch(e){}
+};
+
+window.mostrarSecao=function(n){
+  document.querySelectorAll('.secao').forEach(s=>s.classList.remove('ativa'));document.getElementById('sec-'+n).classList.add('ativa');
+  document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('ativa'));const idx=['inicio','atividades','cardapio','diario','ranking','perfil'];const i=idx.indexOf(n);if(i>=0)document.querySelectorAll('.nav-item')[i].classList.add('ativa');
+};
+
+window.carregarRanking=async function(){
+  const campos={cafe:2,almoco:2,jantar:2,agua:1,exercicio:1,calma:1,sono:1,missao:3};
+  try{const us=await getDocs(collection(db,'usuarios'));const users=[];us.forEach(d=>{if(!d.data().admin)users.push({id:d.id,nome:d.data().nome})});const as=await getDocs(collection(db,'atividades'));const pu={};as.forEach(d=>{const dd=d.data();let p=0;for(const[k,v]of Object.entries(campos)){if(dd[k])p+=v}pu[dd.userId]=(pu[dd.userId]||0)+p});users.forEach(u=>u.pts=pu[u.id]||0);users.sort((a,b)=>b.pts-a.pts);let h='';users.forEach((u,i)=>{const pos=i+1,cp=pos===1?'top1':pos===2?'top2':pos===3?'top3':'',ci=pos<=3?'top3-dest':u.id===U.id?'minha-pos':'',co=pos===1?'👑 ':'';h+=`<div class="ranking-item ${ci}"><div class="ranking-pos ${cp}">${pos}</div><div class="ranking-nome">${co}${u.nome}${u.id===U.id?' (voce)':''}</div><div class="ranking-pts">${u.pts} pts</div></div>`});document.getElementById('ranking-lista').innerHTML=h||'<p style="color:var(--cinza);text-align:center;">Nenhuma participante ainda.</p>'}catch(e){document.getElementById('ranking-lista').innerHTML='<p style="color:var(--cinza);text-align:center;">Erro ao carregar.</p>'}
+};
+
+window.salvarDiario=async function(){
+  const r=document.getElementById('diario-refeicao').value,t=document.getElementById('diario-texto-input').value.trim();if(!t)return;
+  try{await addDoc(collection(db,'diario'),{userId:U.id,data:hojeBR(),refeicao:r,texto:t,hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})});document.getElementById('diario-texto-input').value='';diario()}catch(e){}
+};
+
+async function diario(){
+  try{const sn=await getDocs(query(collection(db,'diario'),where('userId','==',U.id),where('data','==',hojeBR())));const en=[];sn.forEach(d=>en.push(d.data()));en.sort((a,b)=>a.hora>b.hora?1:-1);let h='';en.forEach(e=>{h+=`<div class="diario-entrada"><div class="diario-entrada-header"><span class="diario-refeicao">${e.refeicao}</span><span class="diario-data">${e.hora}</span></div><div class="diario-texto">${e.texto}</div></div>`});const el=document.getElementById('diario-lista');if(el)el.innerHTML=h||'<p style="color:var(--cinza);font-size:0.88rem;text-align:center;padding:20px;">Nenhum registro hoje ainda.</p>'}catch(e){}
 }
 
-function classificarIMC(imc) {
-  if (imc < 18.5) return "Abaixo do peso";
-  if (imc < 25) return "Peso normal";
-  if (imc < 30) return "Sobrepeso";
-  if (imc < 35) return "Obesidade grau I";
-  if (imc < 40) return "Obesidade grau II";
-  return "Obesidade grau III";
+function aguaInline(){
+  const p=U.peso||60,ma=metaAgua(p),co=Math.ceil(ma*1000/250);
+  document.getElementById('agua-meta-l-i').textContent=ma.toFixed(1)+'L';
+  carregarAguaInline(co);
 }
 
-function calcularCardapio(imc, caneta) {
-  if (imc < 30 && caneta === 'nao') return '1400 kcal convencional';
-  if (imc < 30 && caneta === 'sim') return '1400 kcal caneta';
-  if (imc >= 30 && caneta === 'nao') return '1600 kcal convencional';
-  return '1600 kcal caneta';
+async function carregarAguaInline(total){
+  const k=U.id+'_'+hojeBR();let m=0;
+  try{const d=await getDoc(doc(db,'agua',k));m=d.exists()?(d.data().copos||0):0}catch(e){}
+  renderAgua(total,m);
 }
 
-function calcularMetaAgua(peso) {
-  return Math.round(peso * 35) / 1000; // litros
+function renderAgua(total,m){
+  let h='';for(let i=1;i<=total;i++)h+=`<div class="copo ${i<=m?'cheio':''}" onclick="toggleCopo(${i},${total})">💧</div>`;
+  const el=document.getElementById('agua-copos-i');if(el)el.innerHTML=h;
+  const ev=document.getElementById('agua-atual-l-i');if(ev)ev.textContent=(m*250/1000).toFixed(1)+'L';
 }
 
-function sortearFrase(userId) {
-  const hoje = dataHoje();
-  const seed = (userId + hoje).split('').reduce((a,c) => a + c.charCodeAt(0), 0);
-  return FRASES[seed % FRASES.length];
+window.toggleCopo=async function(n,total){
+  const k=U.id+'_'+hojeBR();
+  try{const d=await getDoc(doc(db,'agua',k));let a=d.exists()?(d.data().copos||0):0;a=n===a?n-1:n;await setDoc(doc(db,'agua',k),{userId:U.id,data:hojeBR(),copos:a});renderAgua(total,a)}catch(e){}
+};
+
+async function pesoInline(){
+  const dias=[1,7,10],nomes=['Dia 1','Dia 7','Dia 10'],pesos={};
+  try{for(const d of dias){const x=await getDoc(doc(db,'pesos',U.id+'_dia'+d));pesos[d]=x.exists()?x.data().peso:null}}catch(e){}
+  const da=diaDesafio();
+  let hc='';dias.forEach((d,i)=>{hc+=`<div class="peso-dia-card ${da===d?'ativo':''}" onclick="abrirPeso(${d})"><div class="peso-dia-label">${nomes[i]}</div><div class="peso-dia-val">${pesos[d]?pesos[d]+'kg':'-'}</div></div>`});
+  const ec=document.getElementById('peso-dias-cards-i');if(ec)ec.innerHTML=hc;
+  const vals=dias.map(d=>pesos[d]).filter(v=>v);const eg=document.getElementById('peso-grafico-i');
+  if(vals.length>=2&&eg){eg.style.display='flex';const mx=Math.max(...vals),mn=Math.min(...vals);let hg='';dias.forEach((d,i)=>{if(!pesos[d])return;const pc=mx===mn?80:30+((pesos[d]-mn)/(mx-mn))*50;hg+=`<div class="grafico-row"><div class="grafico-label">${nomes[i]}</div><div class="grafico-barra" style="width:${pc}%"></div><div class="grafico-val">${pesos[d]}kg</div></div>`});eg.innerHTML=hg}
 }
 
-function getIniciais(nome) {
-  const partes = nome.trim().split(' ');
-  if (partes.length === 1) return partes[0].charAt(0).toUpperCase();
-  return (partes[0].charAt(0) + partes[partes.length - 1].charAt(0)).toUpperCase();
+window.abrirPeso=function(d){const da=diaDesafio();if(![1,7,10].includes(da)||da!==d)return;const w=document.getElementById('peso-input-wrap-i');if(w){w.classList.remove('hidden');document.getElementById('peso-input-i').value=''}};
+
+window.salvarPesoInline=async function(){
+  const d=diaDesafio(),p=parseFloat(document.getElementById('peso-input-i').value);if(!p||p<30)return;
+  try{await setDoc(doc(db,'pesos',U.id+'_dia'+d),{userId:U.id,dia:d,peso:p,data:hojeBR()});document.getElementById('peso-input-wrap-i').classList.add('hidden');pesoInline()}catch(e){}
+};
+
+window.preencherPerfil=async function(){
+  document.getElementById('perfil-avatar-txt').textContent=iniciais(U.nome);document.getElementById('perfil-nome-txt').textContent=U.nome;
+  const{total:t,seq:s}=await totalSeq();document.getElementById('perfil-sub-txt').textContent=t+' pontos no grupo';
+  document.getElementById('perfil-dados-lista').innerHTML=`<div class="perfil-info-item"><span class="perfil-info-label">IMC</span><span class="perfil-info-val">${U.imc||'-'} (${U.imc?classImc(parseFloat(U.imc)):'-'})</span></div><div class="perfil-info-item"><span class="perfil-info-label">Meta de agua</span><span class="perfil-info-val">${U.metaAgua?U.metaAgua+'L/dia':'-'}</span></div><div class="perfil-info-item"><span class="perfil-info-label">Sequencia atual</span><span class="perfil-info-val">${s} ${s===1?'dia':'dias'} 🔥</span></div>`;
+  document.getElementById('perfil-nome-input').value=U.nome;document.getElementById('perfil-peso-input').value=U.peso||'';document.getElementById('perfil-altura-input').value=U.altura||'';document.getElementById('perfil-caneta-input').value=U.caneta||'nao';
+};
+
+window.salvarPerfil=async function(){
+  const n=document.getElementById('perfil-nome-input').value.trim(),s=document.getElementById('perfil-senha-input').value.trim(),p=parseFloat(document.getElementById('perfil-peso-input').value),a=parseFloat(document.getElementById('perfil-altura-input').value),c=document.getElementById('perfil-caneta-input').value;
+  if(!n||n.split(' ').length<2){erro('perfil-msg-ok','Informe nome e sobrenome.');return}
+  const upd={nome:n,peso:p,altura:a,caneta:c};if(p&&a){const v=imc(p,a);upd.imc=v.toFixed(1);upd.cardapio=cardapioPerfil(v,c);upd.metaAgua=metaAgua(p)}if(s)upd.senha=hash(s);
+  try{await updateDoc(doc(db,'usuarios',U.id),upd);U={...U,...upd};sessionStorage.setItem('dc_u',JSON.stringify(U));ok('perfil-msg-ok','Perfil atualizado!');linksCardapio()}catch(e){erro('perfil-msg-ok','Erro ao salvar.')}
+};
+
+window.fazerLogout=function(){sessionStorage.removeItem('dc_u');U=null;tela('tela-login')};
+
+async function adminInicio(){tela('tela-admin');adminVisao()}
+
+window.adminTab=function(n){
+  document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('ativa'));event.target.classList.add('ativa');document.querySelectorAll('.admin-content').forEach(c=>c.classList.remove('ativa'));document.getElementById('admin-'+n).classList.add('ativa');
+  if(n==='participantes')adminParticipantes();if(n==='config')adminConfig();
+};
+
+async function adminVisao(){
+  const campos={cafe:2,almoco:2,jantar:2,agua:1,exercicio:1,calma:1,sono:1,missao:3};
+  try{const us=await getDocs(collection(db,'usuarios'));let total=0;const users=[];us.forEach(d=>{if(!d.data().admin){total++;users.push({id:d.id,nome:d.data().nome})}});document.getElementById('adm-total').textContent=total;document.getElementById('adm-inicio').textContent=C.dataInicio?new Date(C.dataInicio).toLocaleString('pt-BR'):'Nao definida';document.getElementById('adm-dia').textContent=C.dataInicio?diaDesafio():'-';const as=await getDocs(collection(db,'atividades'));const pu={};as.forEach(d=>{const dd=d.data();let p=0;for(const[k,v]of Object.entries(campos)){if(dd[k])p+=v}pu[dd.userId]=(pu[dd.userId]||0)+p});users.forEach(u=>u.pts=pu[u.id]||0);users.sort((a,b)=>b.pts-a.pts);document.getElementById('adm-media').textContent=total>0?Math.round(users.reduce((a,u)=>a+u.pts,0)/total)+' pts':'-';let h='';users.forEach((u,i)=>{const pos=i+1;h+=`<div class="ranking-item ${pos<=3?'top3-dest':''}"><div class="ranking-pos ${pos===1?'top1':pos===2?'top2':pos===3?'top3':''}">${pos}</div><div class="ranking-nome">${u.nome}</div><div class="ranking-pts">${u.pts} pts</div></div>`});document.getElementById('adm-ranking-lista').innerHTML=h||'<p style="color:var(--cinza);">Sem participantes.</p>'}catch(e){}
 }
 
-// ===== VERIFICAR ESTADO INICIAL =====
-async function inicializar() {
-  // Carregar config
-  try {
-    const cfgDoc = await getDoc(doc(db, 'config', 'geral'));
-    if (cfgDoc.exists()) configGlobal = cfgDoc.data();
-  } catch(e) {}
-
-  // Verificar sessao
-  const sess = sessionStorage.getItem('dc_usuario');
-  if (sess) {
-    usuarioAtual = JSON.parse(sess);
-    if (usuarioAtual.admin) {
-      mostrarAdmin();
-      return;
-    }
-    // Verificar se tem perfil completo
-    if (usuarioAtual.peso && usuarioAtual.altura) {
-      mostrarApp();
-    } else {
-      mostrarTela('tela-calculadora');
-    }
-    return;
-  }
-
-  // Verificar se app comeou
-  if (configGlobal.dataInicio) {
-    const inicio = new Date(configGlobal.dataInicio);
-    const agora = new Date();
-    if (agora < inicio) {
-      mostrarEmBreve(inicio);
-      return;
-    }
-  }
-  mostrarTela('tela-login');
+async function adminParticipantes(){
+  const campos={cafe:2,almoco:2,jantar:2,agua:1,exercicio:1,calma:1,sono:1,missao:3};
+  try{const us=await getDocs(collection(db,'usuarios'));const users=[];us.forEach(d=>{if(!d.data().admin)users.push({id:d.id,...d.data()})});const as=await getDocs(collection(db,'atividades'));const pu={};as.forEach(d=>{const dd=d.data();let p=0;for(const[k,v]of Object.entries(campos)){if(dd[k])p+=v}pu[dd.userId]=(pu[dd.userId]||0)+p});const ps=await getDocs(collection(db,'pesos'));const pp={};ps.forEach(d=>{const dd=d.data();if(!pp[dd.userId])pp[dd.userId]={};pp[dd.userId]['dia'+dd.dia]=dd.peso});let h='';users.forEach(u=>{const p=pp[u.id]||{};h+=`<div class="admin-participante"><div class="admin-part-nome">${u.nome}</div><div class="admin-part-info"><div class="admin-info-item">Cadastro: <span>${new Date(u.dataCadastro).toLocaleDateString('pt-BR')}</span></div><div class="admin-info-item">Caneta: <span>${u.caneta==='sim'?'Sim':'Nao'}</span></div><div class="admin-info-item">Cardapio: <span>${u.cardapio||'-'}</span></div><div class="admin-info-item">IMC: <span>${u.imc||'-'}</span></div><div class="admin-info-item">Pontos: <span>${pu[u.id]||0}</span></div><div class="admin-info-item">Peso D1: <span>${p.dia1?p.dia1+'kg':'-'}</span></div><div class="admin-info-item">Peso D7: <span>${p.dia7?p.dia7+'kg':'-'}</span></div><div class="admin-info-item">Peso D10: <span>${p.dia10?p.dia10+'kg':'-'}</span></div><div class="admin-info-item">Meta agua: <span>${u.metaAgua?u.metaAgua+'L':'-'}</span></div></div></div>`});document.getElementById('adm-part-lista').innerHTML=h||'<p style="color:var(--cinza);text-align:center;padding:20px;">Sem participantes.</p>'}catch(e){document.getElementById('adm-part-lista').innerHTML='<p style="color:var(--cinza);">Erro ao carregar.</p>'}
 }
 
-// ===== EM BREVE =====
-function mostrarEmBreve(dataInicio) {
-  mostrarTela('tela-embreve');
-  function atualizar() {
-    const agora = new Date();
-    const diff = dataInicio - agora;
-    if (diff <= 0) { mostrarTela('tela-login'); return; }
-    const d = Math.floor(diff / 86400000);
-    const h = Math.floor((diff % 86400000) / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
-    document.getElementById('cnt-dias').textContent = String(d).padStart(2,'0');
-    document.getElementById('cnt-horas').textContent = String(h).padStart(2,'0');
-    document.getElementById('cnt-min').textContent = String(m).padStart(2,'0');
-    document.getElementById('cnt-seg').textContent = String(s).padStart(2,'0');
-  }
-  atualizar();
-  setInterval(atualizar, 1000);
+function toLocalInput(iso){if(!iso)return'';const d=new Date(iso);return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,16)}
+
+async function adminConfig(){
+  if(C.dataZero)document.getElementById('adm-data-zero').value=toLocalInput(C.dataZero);
+  if(C.dataInicio)document.getElementById('adm-data-inicio').value=toLocalInput(C.dataInicio);
+  if(C.ebookLink)document.getElementById('adm-ebook-link').value=C.ebookLink;
+  if(C.comprasLink)document.getElementById('adm-compras-link').value=C.comprasLink;
+  if(C.substituicoesLink_convencional)document.getElementById('adm-sub-convencional').value=C.substituicoesLink_convencional;
+  if(C.substituicoesLink_caneta)document.getElementById('adm-sub-caneta').value=C.substituicoesLink_caneta;
+  ['1400_kcal_convencional','1400_kcal_caneta','1600_kcal_convencional','1600_kcal_caneta'].forEach(t=>{const e=document.getElementById('adm-link-'+t);if(e&&C['cardapioLink_'+t])e.value=C['cardapioLink_'+t]});
 }
 
-window.mostrarLogin = function() { mostrarTela('tela-login'); }
+window.salvarDataZero=async function(){const v=document.getElementById('adm-data-zero').value;if(!v)return;await setDoc(doc(db,'config','geral'),{...C,dataZero:new Date(v).toISOString()});C.dataZero=new Date(v).toISOString();alert('Dia zero salvo!')};
+window.salvarDataInicio=async function(){const v=document.getElementById('adm-data-inicio').value;if(!v)return;await setDoc(doc(db,'config','geral'),{...C,dataInicio:new Date(v).toISOString()});C.dataInicio=new Date(v).toISOString();alert('Data de inicio salva!')};
+window.salvarLinksCardapio=async function(){const tipos=['1400_kcal_convencional','1400_kcal_caneta','1600_kcal_convencional','1600_kcal_caneta'];const upd={};tipos.forEach(t=>{const v=document.getElementById('adm-link-'+t).value.trim();if(v)upd['cardapioLink_'+t]=v});await setDoc(doc(db,'config','geral'),{...C,...upd});Object.assign(C,upd);alert('Links dos cardapios salvos!')};
+window.salvarLinksSubstituicoes=async function(){const co=document.getElementById('adm-sub-convencional').value.trim(),ca=document.getElementById('adm-sub-caneta').value.trim();const upd={};if(co)upd.substituicoesLink_convencional=co;if(ca)upd.substituicoesLink_caneta=ca;await setDoc(doc(db,'config','geral'),{...C,...upd});Object.assign(C,upd);alert('Links das substituicoes salvos!')};
+window.salvarCompras=async function(){const l=document.getElementById('adm-compras-link').value.trim();await setDoc(doc(db,'config','geral'),{...C,comprasLink:l});C.comprasLink=l;alert('Lista de compras salva!')};
+window.salvarEbook=async function(){const l=document.getElementById('adm-ebook-link').value.trim();await setDoc(doc(db,'config','geral'),{...C,ebookLink:l});C.ebookLink=l;alert('Ebook salvo!')};
+
+window.exportarDados=async function(){
+  try{const campos={cafe:2,almoco:2,jantar:2,agua:1,exercicio:1,calma:1,sono:1,missao:3};const us=await getDocs(collection(db,'usuarios'));const as=await getDocs(collection(db,'atividades'));const ps=await getDocs(collection(db,'pesos'));const pu={};as.forEach(d=>{const dd=d.data();let p=0;for(const[k,v]of Object.entries(campos)){if(dd[k])p+=v}pu[dd.userId]=(pu[dd.userId]||0)+p});const pp={};ps.forEach(d=>{const dd=d.data();if(!pp[dd.userId])pp[dd.userId]={};pp[dd.userId]['dia'+dd.dia]=dd.peso});let csv='Nome,Cadastro,Caneta,Cardapio,IMC,Pontos Totais,Peso Dia 1,Peso Dia 7,Peso Dia 10\n';us.forEach(d=>{if(d.data().admin)return;const u=d.data(),p=pp[d.id]||{};csv+=`"${u.nome}","${new Date(u.dataCadastro).toLocaleDateString('pt-BR')}","${u.caneta}","${u.cardapio||''}","${u.imc||''}","${pu[d.id]||0}","${p.dia1||''}","${p.dia7||''}","${p.dia10||''}"\n`});const b=new Blob([csv],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(b);const a=document.createElement('a');a.href=url;a.download='dose-certa-dados.csv';a.click();URL.revokeObjectURL(url)}catch(e){alert('Erro ao exportar.')}
+};
+
+window.confirmarLimpeza=async function(){
+  if(!confirm('ATENCAO: Apaga TODOS os dados de participantes. Confirmar?'))return;
+  try{for(const col of['usuarios','atividades','diario','pesos','agua']){const sn=await getDocs(collection(db,col));for(const d of sn.docs)await deleteDoc(d.ref)}alert('Dados apagados. Configuracoes mantidas.')}catch(e){alert('Erro: '+e.message)}
+};
 
-// ===== LOGIN/CADASTRO =====
-window.mudarTab = function(tab) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('ativa'));
-  event.target.classList.add('ativa');
-  document.getElementById('form-login').classList.toggle('hidden', tab !== 'login');
-  document.getElementById('form-cadastro').classList.toggle('hidden', tab !== 'cadastro');
-  document.getElementById('msg-erro').style.display = 'none';
-}
-
-window.fazerLogin = async function() {
-  const nome = document.getElementById('login-nome').value.trim();
-  const senha = document.getElementById('login-senha').value.trim();
-  if (!nome || !senha) { mostrarErro('msg-erro', 'Preencha nome e senha.'); return; }
-
-  // Admin
-  if (nome === 'Talita Codogni' && senha === '131205') {
-    usuarioAtual = { nome: 'Talita Codogni', admin: true };
-    sessionStorage.setItem('dc_usuario', JSON.stringify(usuarioAtual));
-    mostrarAdmin();
-    return;
-  }
-
-  try {
-    const nomeKey = nome.toLowerCase().replace(/\s+/g,'_');
-    const userDoc = await getDoc(doc(db, 'usuarios', nomeKey));
-    if (!userDoc.exists()) { mostrarErro('msg-erro', 'Usuario nao encontrado.'); return; }
-    const data = userDoc.data();
-    if (data.senha !== hashSenha(senha)) { mostrarErro('msg-erro', 'Senha incorreta.'); return; }
-    usuarioAtual = { ...data, id: nomeKey };
-    sessionStorage.setItem('dc_usuario', JSON.stringify(usuarioAtual));
-    if (usuarioAtual.peso && usuarioAtual.altura) {
-      mostrarApp();
-    } else {
-      mostrarTela('tela-calculadora');
-    }
-  } catch(e) {
-    mostrarErro('msg-erro', 'Erro ao entrar. Tente novamente.');
-  }
-}
-
-window.fazerCadastro = async function() {
-  const primeiroNome = document.getElementById('cad-nome').value.trim();
-  const sobrenome = document.getElementById('cad-sobrenome').value.trim();
-  const nome = primeiroNome + ' ' + sobrenome;
-  const senha = document.getElementById('cad-senha').value.trim();
-  const senha2 = document.getElementById('cad-senha2').value.trim();
-
-  if (!primeiroNome) { mostrarErro('msg-erro', 'Preencha o campo Nome.'); return; }
-  if (!sobrenome) { mostrarErro('msg-erro', 'Preencha o campo Sobrenome.'); return; }
-  if (!senha || senha.length < 4) { mostrarErro('msg-erro', 'Senha deve ter ao menos 4 caracteres.'); return; }
-  if (senha !== senha2) { mostrarErro('msg-erro', 'Senhas nao conferem.'); return; }
-
-  const nomeKey = nome.toLowerCase().replace(/\s+/g,'_');
-  try {
-    const existe = await getDoc(doc(db, 'usuarios', nomeKey));
-    if (existe.exists()) { mostrarErro('msg-erro', 'Este nome ja esta cadastrado.'); return; }
-
-    const userData = {
-      nome: nome,
-      senha: hashSenha(senha),
-      dataCadastro: new Date().toISOString(),
-      peso: null,
-      altura: null,
-      caneta: 'nao',
-      cardapio: null,
-      imc: null
-    };
-    await setDoc(doc(db, 'usuarios', nomeKey), userData);
-    usuarioAtual = { ...userData, id: nomeKey };
-    sessionStorage.setItem('dc_usuario', JSON.stringify(usuarioAtual));
-    mostrarTela('tela-calculadora');
-  } catch(e) {
-    mostrarErro('msg-erro', 'Erro ao cadastrar. Tente novamente.');
-  }
-}
-
-// ===== CALCULADORA IMC =====
-window.calcularIMC = async function() {
-  const peso = parseFloat(document.getElementById('calc-peso').value);
-  const altura = parseFloat(document.getElementById('calc-altura').value);
-  const caneta = document.getElementById('calc-caneta').value;
-
-  if (!peso || !altura || peso < 30 || altura < 100) {
-    mostrarErro('calc-msg-erro', 'Preencha peso e altura corretamente.'); return;
-  }
-
-  const imc = calcularIMCInterno(peso, altura);
-  const classif = classificarIMC(imc);
-  const cardapio = calcularCardapio(imc, caneta);
-  const metaAgua = calcularMetaAgua(peso);
-
-  document.getElementById('imc-val').textContent = imc.toFixed(1);
-  document.getElementById('imc-class').textContent = classif;
-  document.getElementById('imc-resultado').classList.remove('hidden');
-
-  // Salvar no Firestore
-  const updates = { peso, altura, caneta, imc: imc.toFixed(1), cardapio, metaAgua };
-  try {
-    await updateDoc(doc(db, 'usuarios', usuarioAtual.id), updates);
-    usuarioAtual = { ...usuarioAtual, ...updates };
-    sessionStorage.setItem('dc_usuario', JSON.stringify(usuarioAtual));
-
-    // Registrar peso do dia 1
-    await setDoc(doc(db, 'pesos', `${usuarioAtual.id}_dia1`), {
-      userId: usuarioAtual.id,
-      dia: 1,
-      peso,
-      data: dataHoje()
-    });
-
-    setTimeout(() => mostrarApp(), 1200);
-  } catch(e) {
-    mostrarErro('calc-msg-erro', 'Erro ao salvar. Tente novamente.');
-  }
-}
-
-// ===== APP PRINCIPAL =====
-async function mostrarApp() {
-  mostrarTela('tela-app');
-  document.getElementById('header-nome').textContent = usuarioAtual.nome.split(' ')[0];
-  document.getElementById('cardapio-badge').textContent = 'Cardapio: ' + (usuarioAtual.cardapio ? usuarioAtual.cardapio.split(' kcal')[0] + ' kcal' : 'Nao definido');
-
-  // Ebook link
-  if (configGlobal.ebookLink) {
-    document.getElementById('ebook-link-wrap').innerHTML = `<a href="${configGlobal.ebookLink}" target="_blank" class="btn btn-secondary btn-full">Abrir Ebook de Receitas</a>`;
-  }
-
-  await carregarAtivHoje();
-  await atualizarInicio();
-  configurarAgua();
-  carregarDiario();
-  carregarPeso();
-}
-
-async function atualizarInicio() {
-  const dia = diaDesafio();
-  document.getElementById('dia-atual-num').textContent = dia;
-  document.getElementById('dia-ativ').textContent = dia;
-
-  // Bolinhas
-  let html = '';
-  for (let i = 1; i <= 10; i++) {
-    const cls = i < dia ? 'feito' : i === dia ? 'hoje' : '';
-    html += `<div class="dia-bolinha ${cls}"></div>`;
-  }
-  document.getElementById('dias-bolinhas').innerHTML = html;
-
-  // Frase
-  document.getElementById('frase-texto').textContent = sortearFrase(usuarioAtual.id);
-
-  // Missao
-  if (dia >= 1 && dia <= 10) {
-    document.getElementById('missao-texto').textContent = MISSOES[dia - 1];
-    document.getElementById('missao-card').classList.remove('hidden');
-  }
-
-  // Pontos
-  await calcularPontos();
-}
-
-async function carregarAtivHoje() {
-  const key = `${usuarioAtual.id}_${dataHoje()}`;
-  try {
-    const d = await getDoc(doc(db, 'atividades', key));
-    ativHoje = d.exists() ? d.data() : {};
-  } catch(e) { ativHoje = {}; }
-
-  const campos = ['cafe','almoco','jantar','agua','exercicio','calma','sono','missao'];
-  campos.forEach(c => {
-    const el = document.getElementById('ativ-' + c);
-    if (el) el.classList.toggle('marcado', !!ativHoje[c]);
-  });
-}
-
-async function calcularPontos() {
-  const campos = { cafe: 2, almoco: 2, jantar: 2, agua: 1, exercicio: 1, calma: 1, sono: 1, missao: 3 };
-  let pontosDia = 0;
-  for (const [k, v] of Object.entries(campos)) {
-    if (ativHoje[k]) pontosDia += v;
-  }
-
-  document.getElementById('pontos-hoje-num').textContent = pontosDia;
-  document.getElementById('pts-ativ').textContent = pontosDia;
-
-  // Parabens
-  document.getElementById('parabens-banner').classList.toggle('hidden', pontosDia < 16);
-
-  // Total e sequencia
-  const { total, seq } = await calcularTotalESeq();
-  document.getElementById('pontos-total-num').textContent = total + ' pts';
-  document.getElementById('seq-dias-badge').textContent = 'Seq: ' + seq + (seq === 1 ? ' dia' : ' dias');
-}
-
-async function calcularTotalESeq() {
-  let total = 0;
-  let seq = 0;
-  const campos = { cafe: 2, almoco: 2, jantar: 2, agua: 1, exercicio: 1, calma: 1, sono: 1, missao: 3 };
-  try {
-    const q = query(collection(db, 'atividades'), where('userId', '==', usuarioAtual.id));
-    const snap = await getDocs(q);
-    const diasMap = {};
-    snap.forEach(d => {
-      const data = d.data();
-      let pts = 0;
-      for (const [k, v] of Object.entries(campos)) { if (data[k]) pts += v; }
-      diasMap[data.data] = pts;
-      total += pts;
-    });
-    // Sequencia
-    const hoje = new Date();
-    for (let i = 0; i < 10; i++) {
-      const d = new Date(hoje); d.setDate(d.getDate() - i);
-      const key = d.toISOString().split('T')[0];
-      if (diasMap[key] && diasMap[key] > 0) seq++;
-      else if (i > 0) break;
-    }
-  } catch(e) {}
-  return { total, seq };
-}
-
-window.toggleAtiv = async function(campo, pts) {
-  const el = document.getElementById('ativ-' + campo);
-  const novoValor = !ativHoje[campo];
-  el.classList.toggle('marcado', novoValor);
-  ativHoje[campo] = novoValor;
-
-  const key = `${usuarioAtual.id}_${dataHoje()}`;
-  try {
-    await setDoc(doc(db, 'atividades', key), {
-      ...ativHoje,
-      userId: usuarioAtual.id,
-      data: dataHoje(),
-      dia: diaDesafio()
-    }, { merge: true });
-    await calcularPontos();
-  } catch(e) {}
-}
-
-// ===== SECOES =====
-window.mostrarSecao = function(nome) {
-  document.querySelectorAll('.secao').forEach(s => s.classList.remove('ativa'));
-  document.getElementById('sec-' + nome).classList.add('ativa');
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('ativa'));
-  const idx = ['inicio','atividades','cardapio','ranking','mais'];
-  const i = idx.indexOf(nome);
-  if (i >= 0) document.querySelectorAll('.nav-item')[i].classList.add('ativa');
-}
-
-window.mostrarSubsecao = function(nome) {
-  document.querySelectorAll('.secao').forEach(s => s.classList.remove('ativa'));
-  document.getElementById('sec-' + nome).classList.add('ativa');
-  if (nome === 'agua') configurarAgua();
-  if (nome === 'peso') carregarPeso();
-  if (nome === 'diario') carregarDiario();
-  if (nome === 'perfil') preencherPerfil();
-}
-
-window.voltarMais = function() {
-  document.querySelectorAll('.secao').forEach(s => s.classList.remove('ativa'));
-  document.getElementById('sec-mais').classList.add('ativa');
-}
-
-window.preencherMais = async function() {
-  document.getElementById('mais-avatar').textContent = getIniciais(usuarioAtual.nome);
-  document.getElementById('mais-nome').textContent = usuarioAtual.nome;
-  const { total, seq } = await calcularTotalESeq();
-  document.getElementById('mais-sub').textContent = total + ' pontos no grupo';
-  document.getElementById('mais-seq').textContent = seq;
-}
-
-// ===== RANKING =====
-window.carregarRanking = async function() {
-  const campos = { cafe: 2, almoco: 2, jantar: 2, agua: 1, exercicio: 1, calma: 1, sono: 1, missao: 3 };
-  try {
-    const usersSnap = await getDocs(collection(db, 'usuarios'));
-    const users = [];
-    usersSnap.forEach(d => {
-      if (!d.data().admin) users.push({ id: d.id, nome: d.data().nome });
-    });
-
-    const atvsSnap = await getDocs(collection(db, 'atividades'));
-    const pontosPorUser = {};
-    atvsSnap.forEach(d => {
-      const data = d.data();
-      let pts = 0;
-      for (const [k, v] of Object.entries(campos)) { if (data[k]) pts += v; }
-      pontosPorUser[data.userId] = (pontosPorUser[data.userId] || 0) + pts;
-    });
-
-    users.forEach(u => u.pts = pontosPorUser[u.id] || 0);
-    users.sort((a, b) => b.pts - a.pts);
-
-    let html = '';
-    users.forEach((u, i) => {
-      const pos = i + 1;
-      const isTop3 = pos <= 3;
-      const isMeu = u.id === usuarioAtual.id;
-      const clsPos = pos === 1 ? 'top1' : pos === 2 ? 'top2' : pos === 3 ? 'top3' : '';
-      const clsItem = isTop3 ? 'top3-dest' : isMeu ? 'minha-pos' : '';
-      const coroa = pos === 1 ? '<span class="ranking-coroa">👑</span>' : '';
-      html += `<div class="ranking-item ${clsItem}">
-        <div class="ranking-pos ${clsPos}">${pos}</div>
-        <div class="ranking-nome">${u.nome}${isMeu ? ' (voce)' : ''}</div>
-        ${coroa}
-        <div class="ranking-pts">${u.pts} pts</div>
-      </div>`;
-    });
-    document.getElementById('ranking-lista').innerHTML = html || '<p style="color:var(--cinza);text-align:center;">Nenhuma participante ainda.</p>';
-  } catch(e) {
-    document.getElementById('ranking-lista').innerHTML = '<p style="color:var(--cinza);text-align:center;">Erro ao carregar.</p>';
-  }
-}
-
-// ===== DIARIO =====
-window.salvarDiario = async function() {
-  const refeicao = document.getElementById('diario-refeicao').value;
-  const texto = document.getElementById('diario-texto-input').value.trim();
-  if (!texto) return;
-  try {
-    await addDoc(collection(db, 'diario'), {
-      userId: usuarioAtual.id,
-      data: dataHoje(),
-      refeicao,
-      texto,
-      hora: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
-    });
-    document.getElementById('diario-texto-input').value = '';
-    carregarDiario();
-  } catch(e) {}
-}
-
-async function carregarDiario() {
-  try {
-    const q = query(collection(db, 'diario'), where('userId', '==', usuarioAtual.id), where('data', '==', dataHoje()));
-    const snap = await getDocs(q);
-    const entradas = [];
-    snap.forEach(d => entradas.push(d.data()));
-    entradas.sort((a, b) => a.hora > b.hora ? 1 : -1);
-    let html = '';
-    entradas.forEach(e => {
-      html += `<div class="diario-entrada">
-        <div class="diario-entrada-header">
-          <span class="diario-refeicao">${e.refeicao}</span>
-          <span class="diario-data">${e.hora}</span>
-        </div>
-        <div class="diario-texto">${e.texto}</div>
-      </div>`;
-    });
-    const el = document.getElementById('diario-lista');
-    if (el) el.innerHTML = html || '<p style="color:var(--cinza);font-size:0.9rem;text-align:center;padding:20px;">Nenhum registro hoje ainda.</p>';
-  } catch(e) {}
-}
-
-// ===== AGUA =====
-function configurarAgua() {
-  const peso = usuarioAtual.peso || 60;
-  const meta = calcularMetaAgua(peso);
-  const copos = Math.ceil(meta * 1000 / 250);
-  document.getElementById('agua-meta-l').textContent = meta.toFixed(1) + 'L';
-  document.getElementById('agua-meta-detalhes').textContent = copos + ' copos de 250ml por dia';
-
-  carregarCoposAgua(copos);
-}
-
-async function carregarCoposAgua(totalCopos) {
-  const key = `${usuarioAtual.id}_${dataHoje()}`;
-  let coposMarcados = 0;
-  try {
-    const d = await getDoc(doc(db, 'agua', key));
-    coposMarcados = d.exists() ? (d.data().copos || 0) : 0;
-  } catch(e) {}
-
-  atualizarCopos(totalCopos, coposMarcados);
-}
-
-function atualizarCopos(total, marcados) {
-  let html = '';
-  for (let i = 1; i <= total; i++) {
-    const cheio = i <= marcados;
-    html += `<div class="copo ${cheio ? 'cheio' : ''}" onclick="toggleCopo(${i},${total})">💧</div>`;
-  }
-  document.getElementById('agua-copos').innerHTML = html;
-  const litros = (marcados * 250 / 1000).toFixed(1);
-  document.getElementById('agua-atual-l').textContent = litros + 'L';
-}
-
-window.toggleCopo = async function(num, total) {
-  const key = `${usuarioAtual.id}_${dataHoje()}`;
-  try {
-    const d = await getDoc(doc(db, 'agua', key));
-    let atual = d.exists() ? (d.data().copos || 0) : 0;
-    // Toggle: se clicar no mesmo copo marcado, desmarca. Se clicar em novo, marca até esse.
-    atual = num === atual ? num - 1 : num;
-    await setDoc(doc(db, 'agua', key), { userId: usuarioAtual.id, data: dataHoje(), copos: atual });
-    atualizarCopos(total, atual);
-  } catch(e) {}
-}
-
-// ===== PESO =====
-async function carregarPeso() {
-  const dias = [1, 7, 10];
-  const nomes = ['Dia 1', 'Dia 7', 'Dia 10'];
-  const pesos = {};
-
-  try {
-    for (const dia of dias) {
-      const d = await getDoc(doc(db, 'pesos', `${usuarioAtual.id}_dia${dia}`));
-      pesos[dia] = d.exists() ? d.data().peso : null;
-    }
-  } catch(e) {}
-
-  const diaAtual = diaDesafio();
-
-  let htmlCards = '';
-  dias.forEach((dia, i) => {
-    htmlCards += `<div class="peso-dia-card" onclick="abrirInputPeso(${dia})">
-      <div class="peso-dia-label">${nomes[i]}</div>
-      <div class="peso-dia-val">${pesos[dia] ? pesos[dia] + 'kg' : '-'}</div>
-    </div>`;
-  });
-  const el = document.getElementById('peso-dias-cards');
-  if (el) el.innerHTML = htmlCards;
-
-  // Grafico
-  const vals = dias.map(d => pesos[d]).filter(v => v);
-  const graficoEl = document.getElementById('peso-grafico');
-  if (vals.length > 0 && graficoEl) {
-    graficoEl.style.display = 'block';
-    const max = Math.max(...vals);
-    const min = Math.min(...vals);
-    let html = '';
-    dias.forEach((dia, i) => {
-      if (!pesos[dia]) return;
-      const perc = max === min ? 80 : 30 + ((pesos[dia] - min) / (max - min)) * 50;
-      html += `<div class="grafico-row">
-        <div class="grafico-label">${nomes[i]}</div>
-        <div class="grafico-barra" style="width:${perc}%"></div>
-        <div class="grafico-val">${pesos[dia]}kg</div>
-      </div>`;
-    });
-    document.getElementById('grafico-barras').innerHTML = html;
-  }
-}
-
-window.abrirInputPeso = function(dia) {
-  const diaAtual = diaDesafio();
-  const diasPermitidos = [1, 7, 10];
-  if (!diasPermitidos.includes(diaAtual) || diaAtual !== dia) return;
-  const wrap = document.getElementById('peso-input-wrap');
-  if (!wrap) return;
-  wrap.classList.remove('hidden');
-  document.getElementById('peso-dia-label').textContent = dia;
-  document.getElementById('peso-input').value = '';
-}
-
-window.salvarPeso = async function() {
-  const dia = diaDesafio();
-  const peso = parseFloat(document.getElementById('peso-input').value);
-  if (!peso || peso < 30) return;
-  try {
-    await setDoc(doc(db, 'pesos', `${usuarioAtual.id}_dia${dia}`), {
-      userId: usuarioAtual.id,
-      dia,
-      peso,
-      data: dataHoje()
-    });
-    document.getElementById('peso-input-wrap').classList.add('hidden');
-    carregarPeso();
-  } catch(e) {}
-}
-
-// ===== PERFIL =====
-function preencherPerfil() {
-  document.getElementById('perfil-nome-input').value = usuarioAtual.nome;
-  document.getElementById('perfil-peso-input').value = usuarioAtual.peso || '';
-  document.getElementById('perfil-altura-input').value = usuarioAtual.altura || '';
-  document.getElementById('perfil-caneta-input').value = usuarioAtual.caneta || 'nao';
-}
-
-window.salvarPerfil = async function() {
-  const nome = document.getElementById('perfil-nome-input').value.trim();
-  const senha = document.getElementById('perfil-senha-input').value.trim();
-  const peso = parseFloat(document.getElementById('perfil-peso-input').value);
-  const altura = parseFloat(document.getElementById('perfil-altura-input').value);
-  const caneta = document.getElementById('perfil-caneta-input').value;
-
-  if (!nome || nome.split(' ').length < 2) { mostrarErro('perfil-msg-ok', 'Informe nome e sobrenome.'); return; }
-
-  const updates = { nome, peso, altura, caneta };
-  if (peso && altura) {
-    const imc = calcularIMCInterno(peso, altura);
-    updates.imc = imc.toFixed(1);
-    updates.cardapio = calcularCardapio(imc, caneta);
-    updates.metaAgua = calcularMetaAgua(peso);
-  }
-  if (senha) updates.senha = hashSenha(senha);
-
-  try {
-    await updateDoc(doc(db, 'usuarios', usuarioAtual.id), updates);
-    usuarioAtual = { ...usuarioAtual, ...updates };
-    sessionStorage.setItem('dc_usuario', JSON.stringify(usuarioAtual));
-    document.getElementById('cardapio-badge').textContent = 'Cardapio: ' + (usuarioAtual.cardapio ? usuarioAtual.cardapio.split(' kcal')[0] + ' kcal' : 'Nao definido');
-    mostrarOk('perfil-msg-ok', 'Perfil atualizado com sucesso!');
-  } catch(e) {
-    mostrarErro('perfil-msg-ok', 'Erro ao salvar.');
-  }
-}
-
-// ===== LOGOUT =====
-window.fazerLogout = function() {
-  sessionStorage.removeItem('dc_usuario');
-  usuarioAtual = null;
-  mostrarTela('tela-login');
-}
-
-// ===== ADMIN =====
-async function mostrarAdmin() {
-  mostrarTela('tela-admin');
-  carregarAdminVisao();
-}
-
-window.adminTab = function(nome) {
-  document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('ativa'));
-  event.target.classList.add('ativa');
-  document.querySelectorAll('.admin-content').forEach(c => c.classList.remove('ativa'));
-  document.getElementById('admin-' + nome).classList.add('ativa');
-  if (nome === 'participantes') carregarAdminParticipantes();
-  if (nome === 'config') carregarAdminConfig();
-}
-
-async function carregarAdminVisao() {
-  const campos = { cafe: 2, almoco: 2, jantar: 2, agua: 1, exercicio: 1, calma: 1, sono: 1, missao: 3 };
-  try {
-    const usersSnap = await getDocs(collection(db, 'usuarios'));
-    let total = 0;
-    const users = [];
-    usersSnap.forEach(d => {
-      if (!d.data().admin) { total++; users.push({ id: d.id, nome: d.data().nome }); }
-    });
-    document.getElementById('adm-total').textContent = total;
-    document.getElementById('adm-inicio').textContent = configGlobal.dataInicio ? new Date(configGlobal.dataInicio).toLocaleString('pt-BR') : 'Nao definida';
-    document.getElementById('adm-dia').textContent = configGlobal.dataInicio ? diaDesafio() : '-';
-
-    const atvsSnap = await getDocs(collection(db, 'atividades'));
-    const pontosPorUser = {};
-    atvsSnap.forEach(d => {
-      const data = d.data();
-      let pts = 0;
-      for (const [k, v] of Object.entries(campos)) { if (data[k]) pts += v; }
-      pontosPorUser[data.userId] = (pontosPorUser[data.userId] || 0) + pts;
-    });
-    users.forEach(u => u.pts = pontosPorUser[u.id] || 0);
-    users.sort((a, b) => b.pts - a.pts);
-
-    const mediaTotal = total > 0 ? Math.round(users.reduce((a, u) => a + u.pts, 0) / total) : 0;
-    document.getElementById('adm-media').textContent = mediaTotal + ' pts';
-
-    let html = '';
-    users.forEach((u, i) => {
-      const pos = i + 1;
-      html += `<div class="ranking-item ${pos <= 3 ? 'top3-dest' : ''}">
-        <div class="ranking-pos ${pos===1?'top1':pos===2?'top2':pos===3?'top3':''}">${pos}</div>
-        <div class="ranking-nome">${u.nome}</div>
-        ${pos===1 ? '<span class="ranking-coroa">👑</span>' : ''}
-        <div class="ranking-pts">${u.pts} pts</div>
-      </div>`;
-    });
-    document.getElementById('adm-ranking-lista').innerHTML = html || '<p style="color:var(--cinza);">Sem participantes.</p>';
-  } catch(e) {}
-}
-
-async function carregarAdminParticipantes() {
-  const campos = { cafe: 2, almoco: 2, jantar: 2, agua: 1, exercicio: 1, calma: 1, sono: 1, missao: 3 };
-  try {
-    const usersSnap = await getDocs(collection(db, 'usuarios'));
-    const users = [];
-    usersSnap.forEach(d => { if (!d.data().admin) users.push({ id: d.id, ...d.data() }); });
-
-    const atvsSnap = await getDocs(collection(db, 'atividades'));
-    const pontosPorUser = {};
-    atvsSnap.forEach(d => {
-      const data = d.data();
-      let pts = 0;
-      for (const [k, v] of Object.entries(campos)) { if (data[k]) pts += v; }
-      pontosPorUser[data.userId] = (pontosPorUser[data.userId] || 0) + pts;
-    });
-
-    const pesosSnap = await getDocs(collection(db, 'pesos'));
-    const pesosPorUser = {};
-    pesosSnap.forEach(d => {
-      const data = d.data();
-      if (!pesosPorUser[data.userId]) pesosPorUser[data.userId] = {};
-      pesosPorUser[data.userId]['dia' + data.dia] = data.peso;
-    });
-
-    let html = '';
-    users.forEach(u => {
-      const p = pesosPorUser[u.id] || {};
-      html += `<div class="admin-participante">
-        <div class="admin-part-nome">${u.nome}</div>
-        <div class="admin-part-info">
-          <div class="admin-info-item">Cadastro: <span>${new Date(u.dataCadastro).toLocaleDateString('pt-BR')}</span></div>
-          <div class="admin-info-item">Caneta: <span>${u.caneta === 'sim' ? 'Sim' : 'Nao'}</span></div>
-          <div class="admin-info-item">Cardapio: <span>${u.cardapio || '-'}</span></div>
-          <div class="admin-info-item">IMC: <span>${u.imc || '-'}</span></div>
-          <div class="admin-info-item">Pontos totais: <span>${pontosPorUser[u.id] || 0}</span></div>
-          <div class="admin-info-item">Peso D1: <span>${p.dia1 ? p.dia1 + 'kg' : '-'}</span></div>
-          <div class="admin-info-item">Peso D7: <span>${p.dia7 ? p.dia7 + 'kg' : '-'}</span></div>
-          <div class="admin-info-item">Peso D10: <span>${p.dia10 ? p.dia10 + 'kg' : '-'}</span></div>
-          <div class="admin-info-item">Meta agua: <span>${u.metaAgua ? u.metaAgua + 'L' : '-'}</span></div>
-        </div>
-      </div>`;
-    });
-    document.getElementById('adm-part-lista').innerHTML = html || '<p style="color:var(--cinza);text-align:center;padding:20px;">Sem participantes.</p>';
-  } catch(e) {
-    document.getElementById('adm-part-lista').innerHTML = '<p style="color:var(--cinza);">Erro ao carregar.</p>';
-  }
-}
-
-async function carregarAdminConfig() {
-  if (configGlobal.dataInicio) {
-    const d = new Date(configGlobal.dataInicio);
-    const offset = d.getTimezoneOffset();
-    const local = new Date(d.getTime() - offset * 60000);
-    document.getElementById('adm-data-inicio').value = local.toISOString().slice(0, 16);
-  }
-  if (configGlobal.ebookLink) {
-    document.getElementById('adm-ebook-link').value = configGlobal.ebookLink;
-  }
-}
-
-window.salvarDataInicio = async function() {
-  const val = document.getElementById('adm-data-inicio').value;
-  if (!val) return;
-  try {
-    await setDoc(doc(db, 'config', 'geral'), { ...configGlobal, dataInicio: new Date(val).toISOString() });
-    configGlobal.dataInicio = new Date(val).toISOString();
-    alert('Data de inicio salva!');
-  } catch(e) { alert('Erro ao salvar.'); }
-}
-
-window.salvarEbook = async function() {
-  const link = document.getElementById('adm-ebook-link').value.trim();
-  try {
-    await setDoc(doc(db, 'config', 'geral'), { ...configGlobal, ebookLink: link });
-    configGlobal.ebookLink = link;
-    alert('Link do ebook salvo!');
-  } catch(e) { alert('Erro ao salvar.'); }
-}
-
-window.exportarDados = async function() {
-  try {
-    const campos = { cafe: 2, almoco: 2, jantar: 2, agua: 1, exercicio: 1, calma: 1, sono: 1, missao: 3 };
-    const usersSnap = await getDocs(collection(db, 'usuarios'));
-    const atvsSnap = await getDocs(collection(db, 'atividades'));
-    const pesosSnap = await getDocs(collection(db, 'pesos'));
-
-    const pontosPorUser = {};
-    atvsSnap.forEach(d => {
-      const data = d.data();
-      let pts = 0;
-      for (const [k, v] of Object.entries(campos)) { if (data[k]) pts += v; }
-      pontosPorUser[data.userId] = (pontosPorUser[data.userId] || 0) + pts;
-    });
-
-    const pesosPorUser = {};
-    pesosSnap.forEach(d => {
-      const data = d.data();
-      if (!pesosPorUser[data.userId]) pesosPorUser[data.userId] = {};
-      pesosPorUser[data.userId]['dia' + data.dia] = data.peso;
-    });
-
-    let csv = 'Nome,Cadastro,Caneta,Cardapio,IMC,Pontos Totais,Peso Dia 1,Peso Dia 7,Peso Dia 10\n';
-    usersSnap.forEach(d => {
-      if (d.data().admin) return;
-      const u = d.data();
-      const p = pesosPorUser[d.id] || {};
-      csv += `"${u.nome}","${new Date(u.dataCadastro).toLocaleDateString('pt-BR')}","${u.caneta}","${u.cardapio||''}","${u.imc||''}","${pontosPorUser[d.id]||0}","${p.dia1||''}","${p.dia7||''}","${p.dia10||''}"\n`;
-    });
-
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'dose-certa-dados.csv';
-    a.click();
-    URL.revokeObjectURL(url);
-  } catch(e) { alert('Erro ao exportar.'); }
-}
-
-window.confirmarLimpeza = async function() {
-  if (!confirm('ATENCAO: Isso vai apagar TODOS os dados de participantes (usuarios, atividades, diarios, pesos, agua). Confirmar?')) return;
-  try {
-    const colecoes = ['usuarios', 'atividades', 'diario', 'pesos', 'agua'];
-    for (const col of colecoes) {
-      const snap = await getDocs(collection(db, col));
-      for (const d of snap.docs) {
-        await deleteDoc(d.ref);
-      }
-    }
-    alert('Dados apagados com sucesso. A estrutura e configuracoes foram mantidas.');
-  } catch(e) { alert('Erro ao apagar dados: ' + e.message); }
-}
-
-// ===== INICIAR =====
 inicializar();
 </script>
 </body>
