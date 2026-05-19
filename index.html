@@ -365,7 +365,7 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif}
         <div class="form-group"><label>O que voce comeu?</label><textarea id="diario-texto-input" placeholder="Descreva sua refeicao..."></textarea></div>
         <button class="btn btn-primary btn-full" onclick="salvarDiario()">Registrar</button>
       </div>
-      <h3 style="font-size:1.05rem;margin-bottom:10px;">Registros de hoje</h3>
+      <h3 style="font-size:1.05rem;margin-bottom:10px;">Meu historico alimentar</h3>
       <div id="diario-lista"><div class="loading"><div class="spinner"></div>Carregando...</div></div>
     </div>
   </div>
@@ -434,6 +434,7 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif}
       <button class="admin-tab ativa" onclick="adminTab('visao')">Visao geral</button>
       <button class="admin-tab" onclick="adminTab('participantes')">Participantes</button>
       <button class="admin-tab" onclick="adminTab('config')">Configuracoes</button>
+      <button class="admin-tab" onclick="adminTab('diarios')">Diarios</button>
       <button class="admin-tab" onclick="adminTab('teste')">Modo teste</button>
     </div>
     <div class="admin-content ativa" id="admin-visao">
@@ -445,7 +446,6 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif}
         <div class="admin-stat"><span>Media de pontos</span><strong id="adm-media">-</strong></div>
       </div>
       <div class="admin-section"><h3>Ranking completo</h3><div id="adm-ranking-lista"></div></div>
-      <button class="btn btn-primary btn-full" onclick="exportarDados()">Exportar dados (CSV)</button>
     </div>
     <div class="admin-content" id="admin-participantes"><div id="adm-part-lista"><div class="loading"><div class="spinner"></div>Carregando...</div></div></div>
     <div class="admin-content" id="admin-config">
@@ -484,6 +484,9 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif}
         <div class="form-group"><label>Link do ebook</label><input type="url" id="adm-ebook-link" placeholder="https://..."></div>
         <button class="btn btn-primary btn-full" onclick="salvarEbook()">Salvar ebook</button>
       </div>
+    </div>
+    <div class="admin-content" id="admin-diarios">
+      <div id="adm-diarios-lista"><div class="loading"><div class="spinner"></div>Carregando...</div></div>
     </div>
     <div class="admin-content" id="admin-teste">
       <div class="card" style="border:2px solid var(--terracota);">
@@ -700,7 +703,26 @@ window.salvarDiario=async function(){
 };
 
 async function diario(){
-  try{const sn=await getDocs(query(collection(db,'diario'),where('userId','==',U.id),where('data','==',hojeBR())));const en=[];sn.forEach(d=>en.push(d.data()));en.sort((a,b)=>a.hora>b.hora?1:-1);let h='';en.forEach(e=>{h+=`<div class="diario-entrada"><div class="diario-entrada-header"><span class="diario-refeicao">${e.refeicao}</span><span class="diario-data">${e.hora}</span></div><div class="diario-texto">${e.texto}</div></div>`});const el=document.getElementById('diario-lista');if(el)el.innerHTML=h||'<p style="color:var(--cinza);font-size:0.88rem;text-align:center;padding:20px;">Nenhum registro hoje ainda.</p>'}catch(e){}
+  try{
+    const sn=await getDocs(query(collection(db,'diario'),where('userId','==',U.id)));
+    const en=[];sn.forEach(d=>en.push(d.data()));
+    en.sort((a,b)=>b.data>a.data?1:b.data<a.data?-1:a.hora>b.hora?1:-1);
+    // Agrupar por data
+    const grupos={};
+    en.forEach(e=>{if(!grupos[e.data])grupos[e.data]=[];grupos[e.data].push(e)});
+    const datas=Object.keys(grupos).sort((a,b)=>b.localeCompare(a));
+    let h='';
+    datas.forEach(data=>{
+      const ehHoje=data===hojeBR();
+      const dataFmt=ehHoje?'Hoje':new Date(data+'T12:00:00').toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'2-digit'});
+      h+=`<div style="font-size:0.78rem;font-weight:600;color:var(--cinza);text-transform:uppercase;letter-spacing:1px;margin:16px 0 8px;">${dataFmt}</div>`;
+      grupos[data].forEach(e=>{
+        h+=`<div class="diario-entrada"><div class="diario-entrada-header"><span class="diario-refeicao">${e.refeicao}</span><span class="diario-data">${e.hora}</span></div><div class="diario-texto">${e.texto}</div></div>`;
+      });
+    });
+    const el=document.getElementById('diario-lista');
+    if(el)el.innerHTML=h||'<p style="color:var(--cinza);font-size:0.88rem;text-align:center;padding:20px;">Nenhum registro ainda.</p>';
+  }catch(e){}
 }
 
 function aguaInline(){
@@ -763,7 +785,7 @@ async function adminInicio(){tela('tela-admin');adminVisao()}
 
 window.adminTab=function(n){
   document.querySelectorAll('.admin-tab').forEach(t=>t.classList.remove('ativa'));event.target.classList.add('ativa');document.querySelectorAll('.admin-content').forEach(c=>c.classList.remove('ativa'));document.getElementById('admin-'+n).classList.add('ativa');
-  if(n==='participantes')adminParticipantes();if(n==='config')adminConfig();
+  if(n==='participantes')adminParticipantes();if(n==='config')adminConfig();if(n==='diarios')adminDiarios();
 };
 
 async function adminVisao(){
@@ -773,7 +795,7 @@ async function adminVisao(){
 
 async function adminParticipantes(){
   const campos={cafe:2,almoco:2,jantar:2,agua:1,exercicio:1,calma:1,sono:1,missao:3};
-  try{const us=await getDocs(collection(db,'usuarios'));const users=[];us.forEach(d=>{if(!d.data().admin)users.push({id:d.id,...d.data()})});const as=await getDocs(collection(db,'atividades'));const pu={};as.forEach(d=>{const dd=d.data();let p=0;for(const[k,v]of Object.entries(campos)){if(dd[k])p+=v}pu[dd.userId]=(pu[dd.userId]||0)+p});const ps=await getDocs(collection(db,'pesos'));const pp={};ps.forEach(d=>{const dd=d.data();if(!pp[dd.userId])pp[dd.userId]={};pp[dd.userId]['dia'+dd.dia]=dd.peso});let h='';users.forEach(u=>{const p=pp[u.id]||{};h+=`<div class="admin-participante"><div class="admin-part-nome">${u.nome}</div><div class="admin-part-info"><div class="admin-info-item">Cadastro: <span>${new Date(u.dataCadastro).toLocaleDateString('pt-BR')}</span></div><div class="admin-info-item">Caneta: <span>${u.caneta==='sim'?'Sim':'Nao'}</span></div><div class="admin-info-item">Cardapio: <span>${u.cardapio||'-'}</span></div><div class="admin-info-item">IMC: <span>${u.imc||'-'}</span></div><div class="admin-info-item">Pontos: <span>${pu[u.id]||0}</span></div><div class="admin-info-item">Peso D1: <span>${p.dia1?p.dia1+'kg':'-'}</span></div><div class="admin-info-item">Peso D7: <span>${p.dia7?p.dia7+'kg':'-'}</span></div><div class="admin-info-item">Peso D10: <span>${p.dia10?p.dia10+'kg':'-'}</span></div><div class="admin-info-item">Meta agua: <span>${u.metaAgua?u.metaAgua+'L':'-'}</span></div></div></div>`});document.getElementById('adm-part-lista').innerHTML=h||'<p style="color:var(--cinza);text-align:center;padding:20px;">Sem participantes.</p>'}catch(e){document.getElementById('adm-part-lista').innerHTML='<p style="color:var(--cinza);">Erro ao carregar.</p>'}
+  try{const us=await getDocs(collection(db,'usuarios'));const users=[];us.forEach(d=>{if(!d.data().admin)users.push({id:d.id,...d.data()})});const as=await getDocs(collection(db,'atividades'));const pu={};as.forEach(d=>{const dd=d.data();let p=0;for(const[k,v]of Object.entries(campos)){if(dd[k])p+=v}pu[dd.userId]=(pu[dd.userId]||0)+p});const ps=await getDocs(collection(db,'pesos'));const pp={};ps.forEach(d=>{const dd=d.data();if(!pp[dd.userId])pp[dd.userId]={};pp[dd.userId]['dia'+dd.dia]=dd.peso});let h='';users.forEach(u=>{const p=pp[u.id]||{};h+=`<div class="admin-participante"><div class="admin-part-nome" style="display:flex;justify-content:space-between;align-items:center;"><span>${u.nome}</span><button onclick="excluirParticipante('${u.id}','${u.nome}')" style="background:#fff0ee;border:1px solid var(--terracota);color:var(--terracota);border-radius:8px;padding:4px 10px;font-size:0.75rem;cursor:pointer;font-family:'DM Sans',sans-serif;">Excluir</button></div><div class="admin-part-info"><div class="admin-info-item">Cadastro: <span>${new Date(u.dataCadastro).toLocaleDateString('pt-BR')}</span></div><div class="admin-info-item">Caneta: <span>${u.caneta==='sim'?'Sim':'Nao'}</span></div><div class="admin-info-item">Cardapio: <span>${u.cardapio||'-'}</span></div><div class="admin-info-item">IMC: <span>${u.imc||'-'}</span></div><div class="admin-info-item">Pontos: <span>${pu[u.id]||0}</span></div><div class="admin-info-item">Peso D1: <span>${p.dia1?p.dia1+'kg':'-'}</span></div><div class="admin-info-item">Peso D7: <span>${p.dia7?p.dia7+'kg':'-'}</span></div><div class="admin-info-item">Peso D10: <span>${p.dia10?p.dia10+'kg':'-'}</span></div><div class="admin-info-item">Meta agua: <span>${u.metaAgua?u.metaAgua+'L':'-'}</span></div></div></div>`});document.getElementById('adm-part-lista').innerHTML=h||'<p style="color:var(--cinza);text-align:center;padding:20px;">Sem participantes.</p>'}catch(e){document.getElementById('adm-part-lista').innerHTML='<p style="color:var(--cinza);">Erro ao carregar.</p>'}
 }
 
 function toLocalInput(iso){if(!iso)return'';const d=new Date(iso);return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,16)}
@@ -797,6 +819,80 @@ window.salvarEbook=async function(){const l=document.getElementById('adm-ebook-l
 
 window.exportarDados=async function(){
   try{const campos={cafe:2,almoco:2,jantar:2,agua:1,exercicio:1,calma:1,sono:1,missao:3};const us=await getDocs(collection(db,'usuarios'));const as=await getDocs(collection(db,'atividades'));const ps=await getDocs(collection(db,'pesos'));const pu={};as.forEach(d=>{const dd=d.data();let p=0;for(const[k,v]of Object.entries(campos)){if(dd[k])p+=v}pu[dd.userId]=(pu[dd.userId]||0)+p});const pp={};ps.forEach(d=>{const dd=d.data();if(!pp[dd.userId])pp[dd.userId]={};pp[dd.userId]['dia'+dd.dia]=dd.peso});let csv='Nome,Cadastro,Caneta,Cardapio,IMC,Pontos Totais,Peso Dia 1,Peso Dia 7,Peso Dia 10\n';us.forEach(d=>{if(d.data().admin)return;const u=d.data(),p=pp[d.id]||{};csv+=`"${u.nome}","${new Date(u.dataCadastro).toLocaleDateString('pt-BR')}","${u.caneta}","${u.cardapio||''}","${u.imc||''}","${pu[d.id]||0}","${p.dia1||''}","${p.dia7||''}","${p.dia10||''}"\n`});const b=new Blob([csv],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(b);const a=document.createElement('a');a.href=url;a.download='dose-certa-dados.csv';a.click();URL.revokeObjectURL(url)}catch(e){alert('Erro ao exportar.')}
+};
+
+async function adminDiarios(){
+  const el=document.getElementById('adm-diarios-lista');
+  el.innerHTML='<div class="loading"><div class="spinner"></div>Carregando...</div>';
+  try{
+    const us=await getDocs(collection(db,'usuarios'));
+    const users=[];us.forEach(d=>{if(!d.data().admin)users.push({id:d.id,nome:d.data().nome})});
+    users.sort((a,b)=>a.nome.localeCompare(b.nome));
+    let h='';
+    users.forEach(u=>{
+      h+=`<div class="admin-participante" style="cursor:pointer;" onclick="toggleDiarioAdmin('${u.id}','${u.nome}')">
+        <div class="admin-part-nome" style="display:flex;justify-content:space-between;align-items:center;">
+          <span>${u.nome}</span>
+          <span style="font-size:0.75rem;color:var(--verde);">ver diario</span>
+        </div>
+        <div id="diario-admin-${u.id}" class="hidden" style="margin-top:12px;"></div>
+      </div>`;
+    });
+    el.innerHTML=h||'<p style="color:var(--cinza);text-align:center;padding:20px;">Sem participantes.</p>';
+  }catch(e){el.innerHTML='<p style="color:var(--cinza);">Erro ao carregar.</p>'}
+}
+
+window.toggleDiarioAdmin=async function(uid,nome){
+  const el=document.getElementById('diario-admin-'+uid);
+  if(!el.classList.contains('hidden')){el.classList.add('hidden');return}
+  el.classList.remove('hidden');
+  el.innerHTML='<div class="spinner" style="margin:12px auto;"></div>';
+  try{
+    const sn=await getDocs(query(collection(db,'diario'),where('userId','==',uid)));
+    const en=[];sn.forEach(d=>en.push(d.data()));
+    en.sort((a,b)=>b.data>a.data?1:b.data<a.data?-1:a.hora>b.hora?1:-1);
+    const grupos={};
+    en.forEach(e=>{if(!grupos[e.data])grupos[e.data]=[];grupos[e.data].push(e)});
+    const datas=Object.keys(grupos).sort((a,b)=>b.localeCompare(a));
+    let h='';
+    if(datas.length===0){h='<p style="color:var(--cinza);font-size:0.85rem;text-align:center;padding:12px;">Nenhum registro ainda.</p>';}
+    datas.forEach(data=>{
+      const dataFmt=new Date(data+'T12:00:00').toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'2-digit'});
+      h+=`<div style="font-size:0.72rem;font-weight:600;color:var(--cinza);text-transform:uppercase;letter-spacing:1px;margin:12px 0 6px;">${dataFmt}</div>`;
+      grupos[data].forEach(e=>{
+        h+=`<div style="background:var(--creme);border-radius:10px;padding:10px 12px;margin-bottom:6px;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+            <span style="font-size:0.72rem;font-weight:600;color:var(--verde);text-transform:uppercase;">${e.refeicao}</span>
+            <span style="font-size:0.72rem;color:var(--cinza);">${e.hora}</span>
+          </div>
+          <div style="font-size:0.85rem;color:var(--verde-escuro);white-space:pre-line;">${e.texto}</div>
+        </div>`;
+      });
+    });
+    el.innerHTML=h;
+  }catch(e){el.innerHTML='<p style="color:var(--cinza);font-size:0.85rem;">Erro ao carregar.</p>'}
+};
+
+window.excluirParticipante=async function(uid,nome){
+  if(!confirm('Excluir '+nome+'? Isso remove a participante e todos os dados dela. Nao e possivel desfazer.'))return;
+  try{
+    // Apagar usuario
+    await deleteDoc(doc(db,'usuarios',uid));
+    // Apagar atividades
+    const as=await getDocs(query(collection(db,'atividades'),where('userId','==',uid)));
+    for(const d of as.docs)await deleteDoc(d.ref);
+    // Apagar diario
+    const di=await getDocs(query(collection(db,'diario'),where('userId','==',uid)));
+    for(const d of di.docs)await deleteDoc(d.ref);
+    // Apagar pesos
+    const pe=await getDocs(query(collection(db,'pesos'),where('userId','==',uid)));
+    for(const d of pe.docs)await deleteDoc(d.ref);
+    // Apagar agua
+    const ag=await getDocs(query(collection(db,'agua'),where('userId','==',uid)));
+    for(const d of ag.docs)await deleteDoc(d.ref);
+    alert(nome+' foi excluida com sucesso.');
+    adminParticipantes();
+  }catch(e){alert('Erro ao excluir: '+e.message)}
 };
 
 window.confirmarLimpeza=async function(){
