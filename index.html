@@ -957,7 +957,7 @@ window.fazerLogin = async function() {
   if (!nome || !senha) { mostrarErro('msg-erro', 'Preencha nome e senha.'); return; }
 
   // Admin
-  if (nome === 'Talita Codogni' && senha === 'admin@dosecerta') {
+  if (nome === 'Talita Codogni' && senha === '131205') {
     usuarioAtual = { nome: 'Talita Codogni', admin: true };
     sessionStorage.setItem('dc_usuario', JSON.stringify(usuarioAtual));
     mostrarAdmin();
