@@ -1,0 +1,18 @@
+{
+  "name": "Dose Certa",
+  "short_name": "Dose Certa",
+  "description": "por Talita Codogni",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#085041",
+  "theme_color": "#085041",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
