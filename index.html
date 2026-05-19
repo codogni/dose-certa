@@ -365,7 +365,14 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif}
         <div class="form-group"><label>O que voce comeu?</label><textarea id="diario-texto-input" placeholder="Descreva sua refeicao..."></textarea></div>
         <button class="btn btn-primary btn-full" onclick="salvarDiario()">Registrar</button>
       </div>
-      <h3 style="font-size:1.05rem;margin-bottom:10px;">Meu historico alimentar</h3>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+        <button onclick="diarioNavegar(-1)" style="background:none;border:2px solid #e0ddd6;border-radius:10px;padding:8px 14px;cursor:pointer;font-size:1.1rem;color:var(--verde-escuro);">&#8592;</button>
+        <div style="text-align:center;">
+          <div id="diario-data-titulo" style="font-size:1rem;font-weight:600;color:var(--verde-escuro);"></div>
+          <div id="diario-data-sub" style="font-size:0.75rem;color:var(--cinza);margin-top:2px;"></div>
+        </div>
+        <button onclick="diarioNavegar(1)" style="background:none;border:2px solid #e0ddd6;border-radius:10px;padding:8px 14px;cursor:pointer;font-size:1.1rem;color:var(--verde-escuro);">&#8594;</button>
+      </div>
       <div id="diario-lista"><div class="loading"><div class="spinner"></div>Carregando...</div></div>
     </div>
   </div>
@@ -435,7 +442,6 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif}
       <button class="admin-tab" onclick="adminTab('participantes')">Participantes</button>
       <button class="admin-tab" onclick="adminTab('config')">Configuracoes</button>
       <button class="admin-tab" onclick="adminTab('diarios')">Diarios</button>
-      <button class="admin-tab" onclick="adminTab('teste')">Modo teste</button>
     </div>
     <div class="admin-content ativa" id="admin-visao">
       <div class="admin-section">
@@ -487,13 +493,6 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif}
     </div>
     <div class="admin-content" id="admin-diarios">
       <div id="adm-diarios-lista"><div class="loading"><div class="spinner"></div>Carregando...</div></div>
-    </div>
-    <div class="admin-content" id="admin-teste">
-      <div class="card" style="border:2px solid var(--terracota);">
-        <h3 style="color:var(--terracota);margin-bottom:12px;">Modo Teste</h3>
-        <p style="font-size:0.88rem;color:var(--cinza);margin-bottom:16px;line-height:1.6;">Apaga todos os dados de participantes e registros. Configuracoes sao mantidas. Nao e possivel desfazer.</p>
-        <button class="btn btn-secondary btn-full" onclick="confirmarLimpeza()">Apagar dados de participantes</button>
-      </div>
     </div>
   </div>
 </div>
@@ -702,28 +701,51 @@ window.salvarDiario=async function(){
   try{await addDoc(collection(db,'diario'),{userId:U.id,data:hojeBR(),refeicao:r,texto:t,hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})});document.getElementById('diario-texto-input').value='';diario()}catch(e){}
 };
 
+// Diario navegavel
+let diarioDatas=[];
+let diarioIdx=0;
+
 async function diario(){
   try{
     const sn=await getDocs(query(collection(db,'diario'),where('userId','==',U.id)));
     const en=[];sn.forEach(d=>en.push(d.data()));
-    en.sort((a,b)=>b.data>a.data?1:b.data<a.data?-1:a.hora>b.hora?1:-1);
-    // Agrupar por data
-    const grupos={};
-    en.forEach(e=>{if(!grupos[e.data])grupos[e.data]=[];grupos[e.data].push(e)});
-    const datas=Object.keys(grupos).sort((a,b)=>b.localeCompare(a));
-    let h='';
-    datas.forEach(data=>{
-      const ehHoje=data===hojeBR();
-      const dataFmt=ehHoje?'Hoje':new Date(data+'T12:00:00').toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'2-digit'});
-      h+=`<div style="font-size:0.78rem;font-weight:600;color:var(--cinza);text-transform:uppercase;letter-spacing:1px;margin:16px 0 8px;">${dataFmt}</div>`;
-      grupos[data].forEach(e=>{
-        h+=`<div class="diario-entrada"><div class="diario-entrada-header"><span class="diario-refeicao">${e.refeicao}</span><span class="diario-data">${e.hora}</span></div><div class="diario-texto">${e.texto}</div></div>`;
-      });
-    });
-    const el=document.getElementById('diario-lista');
-    if(el)el.innerHTML=h||'<p style="color:var(--cinza);font-size:0.88rem;text-align:center;padding:20px;">Nenhum registro ainda.</p>';
+    // Coletar todas as datas com registro + hoje
+    const datasSet=new Set([hojeBR()]);
+    en.forEach(e=>datasSet.add(e.data));
+    diarioDatas=Array.from(datasSet).sort((a,b)=>b.localeCompare(a));
+    diarioIdx=0;
+    diarioRenderDia(en);
   }catch(e){}
 }
+
+function diarioRenderDia(entradas){
+  const data=diarioDatas[diarioIdx];
+  const ehHoje=data===hojeBR();
+  const dataObj=new Date(data+'T12:00:00');
+  const titulo=ehHoje?'Hoje':dataObj.toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
+  const sub='Dia '+(diarioDatas.length-diarioIdx)+' de '+diarioDatas.length;
+  document.getElementById('diario-data-titulo').textContent=titulo.charAt(0).toUpperCase()+titulo.slice(1);
+  document.getElementById('diario-data-sub').textContent=sub;
+  const do_dia=entradas?entradas.filter(e=>e.data===data):[];
+  do_dia.sort((a,b)=>a.hora>b.hora?1:-1);
+  let h='';
+  do_dia.forEach(e=>{
+    h+=`<div class="diario-entrada"><div class="diario-entrada-header"><span class="diario-refeicao">${e.refeicao}</span><span class="diario-data">${e.hora}</span></div><div class="diario-texto">${e.texto}</div></div>`;
+  });
+  const el=document.getElementById('diario-lista');
+  if(el)el.innerHTML=h||'<p style="color:var(--cinza);font-size:0.88rem;text-align:center;padding:30px 20px;">Nenhum registro neste dia.</p>';
+}
+
+window.diarioNavegar=async function(dir){
+  const novoIdx=diarioIdx+dir;
+  if(novoIdx<0||novoIdx>=diarioDatas.length)return;
+  diarioIdx=novoIdx;
+  try{
+    const sn=await getDocs(query(collection(db,'diario'),where('userId','==',U.id)));
+    const en=[];sn.forEach(d=>en.push(d.data()));
+    diarioRenderDia(en);
+  }catch(e){}
+};
 
 function aguaInline(){
   const p=U.peso||60,ma=metaAgua(p),co=Math.ceil(ma*1000/250);
@@ -842,6 +864,9 @@ async function adminDiarios(){
   }catch(e){el.innerHTML='<p style="color:var(--cinza);">Erro ao carregar.</p>'}
 }
 
+// Admin diario navegavel por participante
+const admDiarioState={};
+
 window.toggleDiarioAdmin=async function(uid,nome){
   const el=document.getElementById('diario-admin-'+uid);
   if(!el.classList.contains('hidden')){el.classList.add('hidden');return}
@@ -850,27 +875,45 @@ window.toggleDiarioAdmin=async function(uid,nome){
   try{
     const sn=await getDocs(query(collection(db,'diario'),where('userId','==',uid)));
     const en=[];sn.forEach(d=>en.push(d.data()));
-    en.sort((a,b)=>b.data>a.data?1:b.data<a.data?-1:a.hora>b.hora?1:-1);
-    const grupos={};
-    en.forEach(e=>{if(!grupos[e.data])grupos[e.data]=[];grupos[e.data].push(e)});
-    const datas=Object.keys(grupos).sort((a,b)=>b.localeCompare(a));
-    let h='';
-    if(datas.length===0){h='<p style="color:var(--cinza);font-size:0.85rem;text-align:center;padding:12px;">Nenhum registro ainda.</p>';}
-    datas.forEach(data=>{
-      const dataFmt=new Date(data+'T12:00:00').toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'2-digit'});
-      h+=`<div style="font-size:0.72rem;font-weight:600;color:var(--cinza);text-transform:uppercase;letter-spacing:1px;margin:12px 0 6px;">${dataFmt}</div>`;
-      grupos[data].forEach(e=>{
-        h+=`<div style="background:var(--creme);border-radius:10px;padding:10px 12px;margin-bottom:6px;">
-          <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-            <span style="font-size:0.72rem;font-weight:600;color:var(--verde);text-transform:uppercase;">${e.refeicao}</span>
-            <span style="font-size:0.72rem;color:var(--cinza);">${e.hora}</span>
-          </div>
-          <div style="font-size:0.85rem;color:var(--verde-escuro);white-space:pre-line;">${e.texto}</div>
-        </div>`;
-      });
-    });
-    el.innerHTML=h;
+    const datasSet=new Set();
+    en.forEach(e=>datasSet.add(e.data));
+    const datas=Array.from(datasSet).sort((a,b)=>b.localeCompare(a));
+    if(datas.length===0){el.innerHTML='<p style="color:var(--cinza);font-size:0.85rem;text-align:center;padding:12px;">Nenhum registro ainda.</p>';return}
+    admDiarioState[uid]={datas,en,idx:0};
+    admRenderDia(uid);
   }catch(e){el.innerHTML='<p style="color:var(--cinza);font-size:0.85rem;">Erro ao carregar.</p>'}
+};
+
+function admRenderDia(uid){
+  const{datas,en,idx}=admDiarioState[uid];
+  const data=datas[idx];
+  const dataFmt=new Date(data+'T12:00:00').toLocaleDateString('pt-BR',{weekday:'long',day:'2-digit',month:'long'});
+  const titulo=dataFmt.charAt(0).toUpperCase()+dataFmt.slice(1);
+  const doDia=en.filter(e=>e.data===data).sort((a,b)=>a.hora>b.hora?1:-1);
+  let h=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+    <button onclick="admDiarioNav('${uid}',-1)" style="background:none;border:2px solid #e0ddd6;border-radius:8px;padding:5px 10px;cursor:pointer;font-size:1rem;color:var(--verde-escuro);">&#8592;</button>
+    <div style="text-align:center;"><div style="font-size:0.88rem;font-weight:600;color:var(--verde-escuro);">${titulo}</div><div style="font-size:0.72rem;color:var(--cinza);">Dia ${datas.length-idx} de ${datas.length}</div></div>
+    <button onclick="admDiarioNav('${uid}',1)" style="background:none;border:2px solid #e0ddd6;border-radius:8px;padding:5px 10px;cursor:pointer;font-size:1rem;color:var(--verde-escuro);">&#8594;</button>
+  </div>`;
+  if(doDia.length===0){h+='<p style="color:var(--cinza);font-size:0.85rem;text-align:center;padding:8px;">Nenhum registro neste dia.</p>';}
+  doDia.forEach(e=>{
+    h+=`<div style="background:var(--creme);border-radius:10px;padding:10px 12px;margin-bottom:6px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+        <span style="font-size:0.72rem;font-weight:600;color:var(--verde);text-transform:uppercase;">${e.refeicao}</span>
+        <span style="font-size:0.72rem;color:var(--cinza);">${e.hora}</span>
+      </div>
+      <div style="font-size:0.85rem;color:var(--verde-escuro);white-space:pre-line;">${e.texto}</div>
+    </div>`;
+  });
+  document.getElementById('diario-admin-'+uid).innerHTML=h;
+}
+
+window.admDiarioNav=function(uid,dir){
+  const state=admDiarioState[uid];
+  const novoIdx=state.idx+dir;
+  if(novoIdx<0||novoIdx>=state.datas.length)return;
+  state.idx=novoIdx;
+  admRenderDia(uid);
 };
 
 window.excluirParticipante=async function(uid,nome){
@@ -895,10 +938,7 @@ window.excluirParticipante=async function(uid,nome){
   }catch(e){alert('Erro ao excluir: '+e.message)}
 };
 
-window.confirmarLimpeza=async function(){
-  if(!confirm('ATENCAO: Apaga TODOS os dados de participantes. Confirmar?'))return;
-  try{for(const col of['usuarios','atividades','diario','pesos','agua']){const sn=await getDocs(collection(db,col));for(const d of sn.docs)await deleteDoc(d.ref)}alert('Dados apagados. Configuracoes mantidas.')}catch(e){alert('Erro: '+e.message)}
-};
+
 
 inicializar();
 </script>
