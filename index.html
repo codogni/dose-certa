@@ -405,6 +405,48 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif}
     </div>
   </div>
 
+  <!-- LOJA -->
+  <div class="secao" id="sec-loja">
+    <div class="conteudo conteudo-nav">
+      <h2 style="font-size:1.4rem;margin-bottom:20px;">Loja</h2>
+
+      <!-- Ebooks -->
+      <div class="card" style="text-align:center;">
+        <div style="font-size:2rem;margin-bottom:10px;">📚</div>
+        <h3 style="font-size:1.15rem;margin-bottom:8px;">Ebooks de Emagrecimento</h3>
+        <p style="color:var(--cinza);font-size:0.88rem;margin-bottom:16px;line-height:1.5;">Materiais criados pela Talita para te ajudar a continuar sua jornada com informacao e pratica.</p>
+        <a href="https://hotmart.com/pt-br/club/emagrecimento-personalizado" target="_blank" class="btn btn-primary btn-full">Ver ebooks</a>
+      </div>
+
+      <!-- Brownie Fit -->
+      <div class="card">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;">
+          <div style="font-size:2.5rem;">🍫</div>
+          <div>
+            <h3 style="font-size:1.1rem;margin-bottom:4px;">Brownie Fit</h3>
+            <p style="color:var(--cinza);font-size:0.82rem;">Sem culpa, com muito sabor</p>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="background:var(--creme);border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;">
+            <div>
+              <div style="font-weight:600;font-size:0.92rem;color:var(--verde-escuro);">Brownie Fit</div>
+              <div style="font-size:0.78rem;color:var(--cinza);margin-top:2px;">Clique para encomendar</div>
+            </div>
+            <a href="#" onclick="pedirBrownie('Brownie Fit')" class="btn btn-secondary btn-sm">Encomendar</a>
+          </div>
+          <div style="background:var(--creme);border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;">
+            <div>
+              <div style="font-weight:600;font-size:0.92rem;color:var(--verde-escuro);">Brownie Fit Trufado</div>
+              <div style="font-size:0.78rem;color:var(--cinza);margin-top:2px;">Clique para encomendar</div>
+            </div>
+            <a href="#" onclick="pedirBrownie('Brownie Fit Trufado')" class="btn btn-secondary btn-sm">Encomendar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- NAV 6 ABAS -->
   <nav class="nav-bottom">
     <button class="nav-item ativa" onclick="mostrarSecao('inicio')">
@@ -484,6 +526,12 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif}
         <h3 style="margin-bottom:10px;font-size:1rem;">Lista de compras</h3>
         <div class="form-group"><label>Link da lista de compras</label><input type="url" id="adm-compras-link" placeholder="https://..."></div>
         <button class="btn btn-primary btn-full" onclick="salvarCompras()">Salvar lista de compras</button>
+      </div>
+      <div class="card">
+        <h3 style="margin-bottom:10px;font-size:1rem;">WhatsApp para pedidos de brownie</h3>
+        <p style="font-size:0.82rem;color:var(--cinza);margin-bottom:12px;">Numero com DDD e DDI. Ex: 5516999999999</p>
+        <div class="form-group"><label>Numero do WhatsApp</label><input type="text" id="adm-whatsapp" placeholder="5516999999999"></div>
+        <button class="btn btn-primary btn-full" onclick="salvarWhatsapp()">Salvar WhatsApp</button>
       </div>
       <div class="card">
         <h3 style="margin-bottom:10px;font-size:1rem;">Ebook de receitas</h3>
@@ -624,7 +672,7 @@ window.toggleAtiv=async function(campo,pts){
 
 window.mostrarSecao=function(n){
   document.querySelectorAll('.secao').forEach(s=>s.classList.remove('ativa'));document.getElementById('sec-'+n).classList.add('ativa');
-  document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('ativa'));const idx=['inicio','atividades','cardapio','diario','ranking','perfil'];const i=idx.indexOf(n);if(i>=0)document.querySelectorAll('.nav-item')[i].classList.add('ativa');
+  document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('ativa'));const idx=['inicio','atividades','cardapio','diario','ranking','perfil','loja'];const i=idx.indexOf(n);if(i>=0)document.querySelectorAll('.nav-item')[i].classList.add('ativa');
 };
 
 const FRASES_RANKING={
@@ -790,7 +838,18 @@ window.salvarPesoInline=async function(){
 window.preencherPerfil=async function(){
   document.getElementById('perfil-avatar-txt').textContent=iniciais(U.nome);document.getElementById('perfil-nome-txt').textContent=U.nome;
   const{total:t,seq:s}=await totalSeq();document.getElementById('perfil-sub-txt').textContent=t+' pontos no grupo';
-  document.getElementById('perfil-dados-lista').innerHTML=`<div class="perfil-info-item"><span class="perfil-info-label">IMC</span><span class="perfil-info-val">${U.imc||'-'} (${U.imc?classImc(parseFloat(U.imc)):'-'})</span></div><div class="perfil-info-item"><span class="perfil-info-label">Meta de agua</span><span class="perfil-info-val">${U.metaAgua?U.metaAgua+'L/dia':'-'}</span></div><div class="perfil-info-item"><span class="perfil-info-label">Sequencia atual</span><span class="perfil-info-val">${s} ${s===1?'dia':'dias'} 🔥</span></div>`;
+  const imcVal=parseFloat(U.imc||0);
+  let msgImc='';
+  if(imcVal>0&&imcVal<=24.9){
+    msgImc='Voce tem algo valioso: um corpo em equilibrio. Cuidar disso com consistencia e o que separa quem mantem os resultados de quem perde ao longo do tempo. Seria uma honra continuar essa jornada ao seu lado.';
+  }else if(imcVal>=25&&imcVal<=29.9){
+    msgImc='Esses 10 dias mostraram que quando voce decide, voce vai. O que voce comecou aqui pode ser o inicio de uma transformacao muito maior. Adoraria continuar esse caminho com voce.';
+  }else if(imcVal>=30&&imcVal<=34.9){
+    msgImc='Cada escolha certa que voce fez nesses dias importa mais do que voce imagina. O corpo responde quando tem direcao e voce ja provou que consegue. Quero muito continuar essa jornada com voce.';
+  }else if(imcVal>=35){
+    msgImc='Voce chegou ate aqui e isso nao e pouca coisa. O que voce planta agora voce colhe e o melhor ainda esta por vir. Estou aqui para continuar esse caminho com voce.';
+  }
+  document.getElementById('perfil-dados-lista').innerHTML=`<div class="perfil-info-item"><span class="perfil-info-label">IMC</span><span class="perfil-info-val">${U.imc||'-'} (${U.imc?classImc(parseFloat(U.imc)):'-'})</span></div><div class="perfil-info-item"><span class="perfil-info-label">Meta de agua</span><span class="perfil-info-val">${U.metaAgua?U.metaAgua+'L/dia':'-'}</span></div><div class="perfil-info-item"><span class="perfil-info-label">Sequencia atual</span><span class="perfil-info-val">${s} ${s===1?'dia':'dias'} 🔥</span></div>${msgImc?`<div style="margin-top:16px;background:linear-gradient(135deg,var(--verde-escuro) 0%,var(--verde) 100%);border-radius:12px;padding:16px 18px;"><p style="font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-style:italic;color:white;line-height:1.6;">${msgImc}</p></div>`:''}`;
   document.getElementById('perfil-nome-input').value=U.nome;document.getElementById('perfil-peso-input').value=U.peso||'';document.getElementById('perfil-altura-input').value=U.altura||'';document.getElementById('perfil-caneta-input').value=U.caneta||'nao';
 };
 
@@ -827,6 +886,7 @@ async function adminConfig(){
   if(C.dataInicio)document.getElementById('adm-data-inicio').value=toLocalInput(C.dataInicio);
   if(C.ebookLink)document.getElementById('adm-ebook-link').value=C.ebookLink;
   if(C.comprasLink)document.getElementById('adm-compras-link').value=C.comprasLink;
+  if(C.whatsapp)document.getElementById('adm-whatsapp').value=C.whatsapp;
   if(C.substituicoesLink_convencional)document.getElementById('adm-sub-convencional').value=C.substituicoesLink_convencional;
   if(C.substituicoesLink_caneta)document.getElementById('adm-sub-caneta').value=C.substituicoesLink_caneta;
   ['1400_kcal_convencional','1400_kcal_caneta','1600_kcal_convencional','1600_kcal_caneta'].forEach(t=>{const e=document.getElementById('adm-link-'+t);if(e&&C['cardapioLink_'+t])e.value=C['cardapioLink_'+t]});
@@ -837,6 +897,21 @@ window.salvarDataInicio=async function(){const v=document.getElementById('adm-da
 window.salvarLinksCardapio=async function(){const tipos=['1400_kcal_convencional','1400_kcal_caneta','1600_kcal_convencional','1600_kcal_caneta'];const upd={};tipos.forEach(t=>{const v=document.getElementById('adm-link-'+t).value.trim();if(v)upd['cardapioLink_'+t]=v});await setDoc(doc(db,'config','geral'),{...C,...upd});Object.assign(C,upd);alert('Links dos cardapios salvos!')};
 window.salvarLinksSubstituicoes=async function(){const co=document.getElementById('adm-sub-convencional').value.trim(),ca=document.getElementById('adm-sub-caneta').value.trim();const upd={};if(co)upd.substituicoesLink_convencional=co;if(ca)upd.substituicoesLink_caneta=ca;await setDoc(doc(db,'config','geral'),{...C,...upd});Object.assign(C,upd);alert('Links das substituicoes salvos!')};
 window.salvarCompras=async function(){const l=document.getElementById('adm-compras-link').value.trim();await setDoc(doc(db,'config','geral'),{...C,comprasLink:l});C.comprasLink=l;alert('Lista de compras salva!')};
+window.pedirBrownie=function(produto){
+  const num=C.whatsapp||'';
+  if(!num){alert('Link de pedido nao configurado ainda.');return}
+  const msg=encodeURIComponent('Oi Talita! Vi o '+produto+' no app e quero encomendar!');
+  window.open('https://wa.me/'+num+'?text='+msg,'_blank');
+};
+
+window.salvarWhatsapp=async function(){
+  const n=document.getElementById('adm-whatsapp').value.trim().replace(/\D/g,'');
+  if(!n)return;
+  await setDoc(doc(db,'config','geral'),{...C,whatsapp:n});
+  C.whatsapp=n;
+  alert('WhatsApp salvo!');
+};
+
 window.salvarEbook=async function(){const l=document.getElementById('adm-ebook-link').value.trim();await setDoc(doc(db,'config','geral'),{...C,ebookLink:l});C.ebookLink=l;alert('Ebook salvo!')};
 
 window.exportarDados=async function(){
