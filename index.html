@@ -938,8 +938,8 @@ async function adminDiarios(){
     users.sort((a,b)=>a.nome.localeCompare(b.nome));
     let h='';
     users.forEach(u=>{
-      h+=`<div class="admin-participante" style="cursor:pointer;" onclick="toggleDiarioAdmin('${u.id}','${u.nome}')">
-        <div class="admin-part-nome" style="display:flex;justify-content:space-between;align-items:center;">
+      h+=`<div class="admin-participante">
+        <div class="admin-part-nome" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer;" onclick="toggleDiarioAdmin('${u.id}','${u.nome}')">
           <span>${u.nome}</span>
           <span style="font-size:0.75rem;color:var(--verde);">ver diario</span>
         </div>
