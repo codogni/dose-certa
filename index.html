@@ -911,10 +911,8 @@ window.salvarLinksCardapio=async function(){const tipos=['1400_kcal_convencional
 window.salvarLinksSubstituicoes=async function(){const co=document.getElementById('adm-sub-convencional').value.trim(),ca=document.getElementById('adm-sub-caneta').value.trim();const upd={};if(co)upd.substituicoesLink_convencional=co;if(ca)upd.substituicoesLink_caneta=ca;await setDoc(doc(db,'config','geral'),{...C,...upd});Object.assign(C,upd);alert('Links das substituicoes salvos!')};
 window.salvarCompras=async function(){const l=document.getElementById('adm-compras-link').value.trim();await setDoc(doc(db,'config','geral'),{...C,comprasLink:l});C.comprasLink=l;alert('Lista de compras salva!')};
 window.pedirBrownie=function(produto){
-  const num=C.whatsapp||'';
-  if(!num){alert('Link de pedido nao configurado ainda.');return}
   const msg=encodeURIComponent('Oi Talita! Vi o '+produto+' no app e quero encomendar!');
-  window.open('https://wa.me/'+num+'?text='+msg,'_blank');
+  window.open('https://wa.me/message/CDX5QCNFD2EOG1?text='+msg,'_blank');
 };
 
 window.salvarWhatsapp=async function(){
