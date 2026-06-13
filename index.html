@@ -636,10 +636,11 @@ window.calcularIMC=async function(){
 
 async function appInicio(){
   tela('tela-app');document.getElementById('header-nome').textContent=U.nome.split(' ')[0];
-  linksCardapio();await carregarAtiv();await atualizarTela();aguaInline();pesoInline();diario();
+  await linksCardapio();await carregarAtiv();await atualizarTela();aguaInline();pesoInline();diario();
 }
 
-function linksCardapio(){
+async function linksCardapio(){
+  try{const d=await getDoc(doc(db,'config','geral'));if(d.exists())C={...C,...d.data()}}catch(e){}
   const ck=U.cardapio?U.cardapio.replace(/\s+/g,'_').toLowerCase():null;
   if(ck&&C['cardapioLink_'+ck])document.getElementById('cardapio-link-wrap').innerHTML=`<a href="${C['cardapioLink_'+ck]}" target="_blank" class="btn btn-primary btn-full">Abrir meu Cardapio</a>`;
   const sk=U.caneta==='sim'?'caneta':'convencional';
@@ -678,12 +679,40 @@ async function totalSeq(){
 }
 
 window.toggleAtiv=async function(campo,pts){
+  if(!atividadesLiberadas()){alert('As atividades serao liberadas no primeiro dia do grupo.');return;}
   const el=document.getElementById('ativ-'+campo),nv=!AH[campo];el.classList.toggle('marcado',nv);AH[campo]=nv;
   const k=U.id+'_'+hojeBR();
   try{await setDoc(doc(db,'atividades',k),{...AH,userId:U.id,data:hojeBR(),dia:diaDesafio()},{merge:true});await pontos()}catch(e){}
 };
 
+function materiaisLiberados(){
+  // Materiais (cardapio, loja, ebook) liberam no dataZero
+  const ref=C.dataZero?new Date(C.dataZero):C.dataInicio?new Date(C.dataInicio):null;
+  if(!ref)return true;
+  const agoraBR=new Date(new Date().getTime()-(3*3600000));
+  const refBR=new Date(ref.getTime()-(3*3600000));
+  const agoraDia=new Date(agoraBR.toISOString().split('T')[0]+'T00:00:00');
+  const refDia=new Date(refBR.toISOString().split('T')[0]+'T00:00:00');
+  return agoraDia>=refDia;
+}
+function atividadesLiberadas(){
+  // Atividades liberam no dataInicio (dia 1)
+  if(!C.dataInicio)return true;
+  const agoraBR=new Date(new Date().getTime()-(3*3600000));
+  const ini=new Date(C.dataInicio);
+  const iniBR=new Date(ini.getTime()-(3*3600000));
+  const agoraDia=new Date(agoraBR.toISOString().split('T')[0]+'T00:00:00');
+  const iniDia=new Date(iniBR.toISOString().split('T')[0]+'T00:00:00');
+  return agoraDia>=iniDia;
+}
+
 window.mostrarSecao=function(n){
+  if((n==='cardapio'||n==='loja')&&!materiaisLiberados()){
+    alert('Os materiais serao liberados no dia zero do grupo. Fique de olho!');return;
+  }
+  if(n==='atividades'&&!atividadesLiberadas()){
+    alert('As atividades serao liberadas no primeiro dia do grupo. Voce ja pode acessar os materiais!');return;
+  }
   document.querySelectorAll('.secao').forEach(s=>s.classList.remove('ativa'));document.getElementById('sec-'+n).classList.add('ativa');
   document.querySelectorAll('.nav-item').forEach(x=>x.classList.remove('ativa'));const idx=['inicio','atividades','cardapio','ranking','perfil','loja'];const i=idx.indexOf(n);if(i>=0)document.querySelectorAll('.nav-item')[i].classList.add('ativa');
 };
