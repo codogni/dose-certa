@@ -595,7 +595,7 @@ function iniciais(n){const p=n.trim().split(' ');return p.length===1?p[0][0].toU
 
 async function inicializar(){
   try{const d=await getDoc(doc(db,'config','geral'));if(d.exists())C=d.data()}catch(e){}
-  const s=sessionStorage.getItem('dc_u');
+  const s=localStorage.getItem('dc_u');
   if(s){U=JSON.parse(s);if(U.admin){adminInicio();return}if(U.peso&&U.altura){appInicio()}else{tela('tela-calculadora')}return}
   const alvo=C.dataZero?new Date(C.dataZero):C.dataInicio?new Date(C.dataInicio):null;
   if(alvo&&new Date()<alvo){emBreve(alvo);return}
@@ -614,15 +614,15 @@ window.mudarTab=function(t){document.querySelectorAll('.tab').forEach(x=>x.class
 window.fazerLogin=async function(){
   const n=document.getElementById('login-nome').value.trim(),s=document.getElementById('login-senha').value.trim();
   if(!n||!s){erro('msg-erro','Preencha nome e senha.');return}
-  if(n==='Talita Codogni'&&s==='131205'){U={nome:'Talita Codogni',admin:true};sessionStorage.setItem('dc_u',JSON.stringify(U));adminInicio();return}
-  try{const k=n.toLowerCase().replace(/\s+/g,'_'),d=await getDoc(doc(db,'usuarios',k));if(!d.exists()){erro('msg-erro','Usuario nao encontrado.');return}const dd=d.data();if(dd.senha!==hash(s)){erro('msg-erro','Senha incorreta.');return}U={...dd,id:k};sessionStorage.setItem('dc_u',JSON.stringify(U));if(U.peso&&U.altura){appInicio()}else{tela('tela-calculadora')}}catch(e){erro('msg-erro','Erro ao entrar.')}
+  if(n==='Talita Codogni'&&s==='131205'){U={nome:'Talita Codogni',admin:true};localStorage.setItem('dc_u',JSON.stringify(U));adminInicio();return}
+  try{const k=n.toLowerCase().replace(/\s+/g,'_'),d=await getDoc(doc(db,'usuarios',k));if(!d.exists()){erro('msg-erro','Usuario nao encontrado.');return}const dd=d.data();if(dd.senha!==hash(s)){erro('msg-erro','Senha incorreta.');return}U={...dd,id:k};localStorage.setItem('dc_u',JSON.stringify(U));if(U.peso&&U.altura){appInicio()}else{tela('tela-calculadora')}}catch(e){erro('msg-erro','Erro ao entrar.')}
 };
 
 window.fazerCadastro=async function(){
   const fn=document.getElementById('cad-nome').value.trim(),sn=document.getElementById('cad-sobrenome').value.trim(),n=fn+' '+sn,s=document.getElementById('cad-senha').value.trim(),s2=document.getElementById('cad-senha2').value.trim();
   if(!fn){erro('msg-erro','Preencha o campo Nome.');return}if(!sn){erro('msg-erro','Preencha o campo Sobrenome.');return}if(!s||s.length<4){erro('msg-erro','Senha deve ter ao menos 4 caracteres.');return}if(s!==s2){erro('msg-erro','Senhas nao conferem.');return}
   const k=n.toLowerCase().replace(/\s+/g,'_');
-  try{const ex=await getDoc(doc(db,'usuarios',k));if(ex.exists()){erro('msg-erro','Este nome ja esta cadastrado.');return}const d={nome:n,senha:hash(s),dataCadastro:new Date().toISOString(),peso:null,altura:null,caneta:'nao',cardapio:null,imc:null};await setDoc(doc(db,'usuarios',k),d);U={...d,id:k};sessionStorage.setItem('dc_u',JSON.stringify(U));tela('tela-calculadora')}catch(e){erro('msg-erro','Erro ao cadastrar.')}
+  try{const ex=await getDoc(doc(db,'usuarios',k));if(ex.exists()){erro('msg-erro','Este nome ja esta cadastrado.');return}const d={nome:n,senha:hash(s),dataCadastro:new Date().toISOString(),peso:null,altura:null,caneta:'nao',cardapio:null,imc:null};await setDoc(doc(db,'usuarios',k),d);U={...d,id:k};localStorage.setItem('dc_u',JSON.stringify(U));tela('tela-calculadora')}catch(e){erro('msg-erro','Erro ao cadastrar.')}
 };
 
 window.calcularIMC=async function(){
@@ -631,7 +631,7 @@ window.calcularIMC=async function(){
   const v=imc(p,a),cp=cardapioPerfil(v,c),ma=metaAgua(p);
   document.getElementById('imc-val').textContent=v.toFixed(1);document.getElementById('imc-class').textContent=classImc(v);document.getElementById('imc-resultado').classList.remove('hidden');
   const upd={peso:p,altura:a,caneta:c,imc:v.toFixed(1),cardapio:cp,metaAgua:ma};
-  try{await updateDoc(doc(db,'usuarios',U.id),upd);U={...U,...upd};sessionStorage.setItem('dc_u',JSON.stringify(U));await setDoc(doc(db,'pesos',U.id+'_dia1'),{userId:U.id,dia:1,peso:p,data:hojeBR()});setTimeout(()=>appInicio(),1200)}catch(e){erro('calc-msg-erro','Erro ao salvar.')}
+  try{await updateDoc(doc(db,'usuarios',U.id),upd);U={...U,...upd};localStorage.setItem('dc_u',JSON.stringify(U));await setDoc(doc(db,'pesos',U.id+'_dia1'),{userId:U.id,dia:1,peso:p,data:hojeBR()});setTimeout(()=>appInicio(),1200)}catch(e){erro('calc-msg-erro','Erro ao salvar.')}
 };
 
 async function appInicio(){
@@ -899,10 +899,10 @@ window.salvarPerfil=async function(){
   const n=document.getElementById('perfil-nome-input').value.trim(),s=document.getElementById('perfil-senha-input').value.trim(),p=parseFloat(document.getElementById('perfil-peso-input').value),a=parseFloat(document.getElementById('perfil-altura-input').value),c=document.getElementById('perfil-caneta-input').value;
   if(!n||n.split(' ').length<2){erro('perfil-msg-ok','Informe nome e sobrenome.');return}
   const upd={nome:n,peso:p,altura:a,caneta:c};if(p&&a){const v=imc(p,a);upd.imc=v.toFixed(1);upd.cardapio=cardapioPerfil(v,c);upd.metaAgua=metaAgua(p)}if(s)upd.senha=hash(s);
-  try{await updateDoc(doc(db,'usuarios',U.id),upd);U={...U,...upd};sessionStorage.setItem('dc_u',JSON.stringify(U));ok('perfil-msg-ok','Perfil atualizado!');linksCardapio()}catch(e){erro('perfil-msg-ok','Erro ao salvar.')}
+  try{await updateDoc(doc(db,'usuarios',U.id),upd);U={...U,...upd};localStorage.setItem('dc_u',JSON.stringify(U));ok('perfil-msg-ok','Perfil atualizado!');linksCardapio()}catch(e){erro('perfil-msg-ok','Erro ao salvar.')}
 };
 
-window.fazerLogout=function(){sessionStorage.removeItem('dc_u');U=null;tela('tela-login')};
+window.fazerLogout=function(){localStorage.removeItem('dc_u');U=null;tela('tela-login')};
 
 async function adminInicio(){tela('tela-admin');adminVisao()}
 
