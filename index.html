@@ -577,11 +577,10 @@ function hojeBR(){const a=new Date();const b=new Date(a.getTime()-(3*3600000));r
 function agoraBRDate(){return new Date(new Date().getTime()-(3*3600000))}
 
 function diaDesafio(){
+  const hojeBRDate=new Date(agoraBRDate().toISOString().split("T")[0]+"T00:00:00");
+  if(C.dataZero){const z=new Date(C.dataZero);const zBR=new Date(z.getTime()-(3*3600000));const zBRDate=new Date(zBR.toISOString().split("T")[0]+"T00:00:00");if(hojeBRDate.getTime()===zBRDate.getTime())return 0;}
   if(!C.dataInicio)return 1;
-  const ini=new Date(C.dataInicio);
-  const iniBR=new Date(ini.getTime()-(3*3600000));
-  const hojeBRDate=new Date(agoraBRDate().toISOString().split('T')[0]+'T00:00:00');
-  const iniBRDate=new Date(iniBR.toISOString().split('T')[0]+'T00:00:00');
+  const ini=new Date(C.dataInicio);const iniBR=new Date(ini.getTime()-(3*3600000));const iniBRDate=new Date(iniBR.toISOString().split("T")[0]+"T00:00:00");
   const d=Math.floor((hojeBRDate-iniBRDate)/86400000)+1;
   return Math.min(Math.max(d,1),10);
 }
